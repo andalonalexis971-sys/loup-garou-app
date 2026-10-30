@@ -1,9 +1,11 @@
 # Loup-Garou — PWA
 
-Application web mobile du jeu Loup-Garou, en deux modes : **Classique** (plusieurs nuits, maître du jeu) et **Pour une Nuit** (une nuit, un vote, joueurs + 3 cartes).
+Application web du jeu Loup-Garou (iPhone, iPad, Mac). Un seul bouton **Jouer** : c'est le **deck** qui définit la partie.
 
+- Decks fournis : Thiercelieux, Pour une Nuit, Grand village, Nuit complète, Trois nuits
+- Decks personnels (8) : n'importe lesquels des 25 rôles + règles (nombre de nuits, cartes au centre, durée du débat, équilibrage automatique)
 - Distribution secrète « pass & play » avec cartes retournables en 3D
-- Decks personnalisés (3 par mode) et équilibrage automatique
+- Ambiance sonore synthétisée (nuit : vent, grillons, chouette, loups · jour : oiseaux) et effets
 - Appels de nuit guidés (avec narration vocale), chronomètre de débat, vote secret
 - Installable sur iPhone : Safari → Partager → « Sur l'écran d'accueil »
 - Fonctionne hors ligne après la première visite

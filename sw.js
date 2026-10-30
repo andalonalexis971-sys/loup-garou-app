@@ -6,7 +6,7 @@
      • CSS / JS / polices     → cache immédiat + mise à jour en arrière-plan
    Pour publier une mise à jour : incrémentez VERSION.
    ========================================================================== */
-const VERSION = 'lg-v2.1.0';
+const VERSION = 'lg-v3.0.0';
 const SHELL_CACHE = `${VERSION}-shell`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 const IMAGE_CACHE = 'lg-images'; // conservé entre les versions
