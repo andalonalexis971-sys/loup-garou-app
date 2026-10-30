@@ -33,7 +33,7 @@
    1. CONFIGURATION
    -------------------------------------------------------------------------- */
 const CONFIG = {
-  version: '4.0.0',
+  version: '5.0.0',
   cardBack: './assets/images/dos-de-carte.jpg',
   splashMin: 2200,
   minPlayers: 4,
@@ -458,6 +458,10 @@ const BACK_SVG = (() => {
 </svg>`;
 })();
 
+/* Silhouette du loup qui hurle (vectorisée d'après le modèle fourni) — repère ≈ 68 × 100 */
+const WOLF_D = 'M54.15 0.00 L53.48 0.10 L52.81 0.95 L50.52 6.29 L49.00 9.25 L48.33 9.72 L47.38 9.91 L46.33 10.39 L44.80 11.92 L42.14 17.25 L41.37 18.30 L39.47 20.21 L40.42 20.50 L37.18 23.45 L33.75 26.12 L33.65 26.50 L33.84 26.88 L35.56 27.74 L36.61 27.93 L39.08 27.93 L40.04 27.74 L40.51 27.84 L39.47 29.93 L37.37 32.60 L37.94 32.60 L38.89 32.32 L39.08 32.41 L38.61 33.37 L36.32 36.51 L37.46 36.32 L37.85 36.42 L35.65 39.37 L35.37 39.94 L36.32 39.56 L36.51 39.75 L34.70 42.33 L36.32 41.66 L36.61 41.75 L35.37 43.76 L34.22 45.09 L31.65 47.28 L31.74 47.47 L32.70 47.57 L32.79 47.86 L26.69 54.15 L24.21 57.10 L22.02 60.06 L19.07 64.82 L16.68 69.78 L14.97 74.93 L14.39 77.50 L14.01 80.27 L13.92 83.41 L14.11 85.70 L14.59 88.08 L15.44 90.47 L15.35 90.66 L13.54 89.51 L11.82 87.80 L10.68 86.08 L9.44 83.03 L9.06 80.93 L9.06 76.84 L8.39 77.88 L8.29 76.84 L9.72 70.16 L7.53 72.16 L6.48 73.69 L6.29 73.59 L6.20 72.07 L5.62 72.64 L4.10 75.12 L3.15 77.98 L2.96 77.69 L2.76 76.45 L2.48 77.03 L1.81 79.60 L1.72 82.27 L1.53 82.27 L1.05 81.22 L0.76 80.93 L0.57 82.46 L0.76 85.99 L1.14 87.61 L1.81 89.23 L1.72 89.32 L0.00 87.99 L0.48 89.90 L1.14 91.33 L1.91 92.47 L4.00 94.66 L3.81 94.76 L2.76 94.47 L2.38 94.57 L3.62 95.81 L4.67 96.57 L6.20 97.33 L7.53 97.71 L7.91 98.00 L7.53 98.19 L6.29 98.28 L6.48 98.57 L9.53 99.43 L13.25 99.43 L13.73 99.62 L13.54 100.00 L14.01 100.00 L16.78 99.33 L18.11 98.67 L19.26 97.81 L19.54 97.81 L20.31 98.76 L21.83 99.33 L23.55 99.33 L26.02 98.67 L26.98 99.62 L27.84 99.81 L41.94 99.90 L41.94 98.76 L42.14 98.57 L42.61 99.71 L43.28 99.81 L43.85 99.52 L43.85 98.28 L43.66 97.81 L43.09 97.14 L43.18 96.95 L43.85 97.52 L44.52 98.57 L46.04 98.47 L46.33 98.19 L46.33 97.33 L45.95 96.19 L44.71 94.76 L43.95 94.38 L42.99 94.18 L41.47 94.18 L36.42 94.66 L35.65 94.57 L38.70 91.52 L40.90 88.56 L42.42 85.41 L43.09 82.55 L43.09 79.98 L42.90 78.93 L42.04 76.74 L40.61 74.83 L38.99 73.59 L36.89 72.74 L35.75 72.55 L33.37 72.55 L33.46 72.35 L34.32 72.16 L36.99 72.16 L38.13 72.45 L39.56 73.12 L40.51 73.78 L42.14 75.50 L42.90 76.74 L43.66 78.74 L43.95 81.03 L44.61 79.69 L45.28 80.55 L45.57 78.93 L46.14 77.41 L46.33 77.22 L46.62 78.55 L47.86 76.07 L48.24 75.69 L48.33 75.79 L48.43 76.84 L48.90 76.84 L51.10 85.80 L51.57 88.56 L51.76 91.52 L52.81 93.52 L53.67 96.85 L54.05 97.71 L54.62 98.38 L55.29 98.67 L59.01 98.57 L60.06 99.71 L61.87 100.00 L63.58 100.00 L64.63 99.71 L64.63 98.28 L65.01 98.76 L65.30 99.81 L66.63 99.62 L66.63 97.81 L67.21 98.67 L67.30 99.24 L67.78 99.24 L67.87 97.90 L67.68 97.04 L67.21 96.19 L66.73 95.71 L65.87 95.33 L63.58 95.04 L63.01 94.57 L62.15 93.14 L61.58 91.42 L61.01 88.47 L60.44 82.65 L60.15 75.41 L60.06 66.54 L61.68 62.06 L62.35 63.11 L63.97 56.53 L64.25 56.82 L64.44 57.86 L64.63 57.67 L65.11 55.39 L65.11 53.77 L64.92 52.53 L65.11 52.43 L65.97 53.19 L66.44 53.38 L65.97 51.00 L65.97 48.90 L65.68 47.09 L65.78 47.00 L66.25 47.47 L66.63 48.14 L66.73 46.71 L66.16 44.42 L65.01 42.04 L65.11 41.94 L66.35 42.61 L67.11 42.80 L66.54 41.66 L65.40 38.42 L65.49 38.04 L66.44 38.89 L66.25 37.37 L65.49 35.56 L64.44 34.03 L64.92 33.94 L65.78 34.13 L65.78 33.94 L63.30 31.27 L63.39 31.08 L65.01 31.17 L63.87 30.12 L62.73 28.69 L62.82 28.50 L63.97 28.69 L62.15 26.41 L61.49 25.26 L61.68 25.17 L62.73 25.36 L61.68 24.21 L60.63 22.50 L60.72 22.21 L61.30 22.40 L61.39 22.31 L60.63 21.07 L60.15 19.45 L60.15 17.35 L60.34 16.59 L62.35 12.30 L62.73 11.15 L62.73 10.01 L62.25 9.06 L61.68 8.39 L61.11 8.67 L60.72 8.67 L60.06 8.29 L59.77 8.29 L60.25 9.25 L60.15 9.53 L58.44 11.06 L58.15 10.87 L58.34 7.53 L58.34 5.15 L58.15 4.39 L57.67 3.53 L56.91 2.76 L55.77 2.38 L55.86 1.72 L55.48 1.05 L54.81 0.38ZM52.53 71.97 L53.10 73.21 L55.48 81.60 L56.53 86.56 L56.72 91.04 L57.77 92.37 L58.34 94.66 L58.25 95.33 L56.91 93.71 L56.24 92.09 L55.86 89.99 L55.39 84.75 L54.24 79.50 L52.43 72.26Z';
+const wolfSVG = (cls = '') => `<svg class="${cls}" viewBox="-1 -1 70 102" aria-hidden="true"><path d="${WOLF_D}" fill-rule="evenodd"/></svg>`;
+
 /* Décor vectoriel de l'accueil (remplacé par accueil.jpg s'il existe) */
 function buildScene() {
   let seed = 7;
@@ -498,11 +502,21 @@ function buildScene() {
     <g fill="#05070d">${village}</g>
     <g fill="#FFC560">${lights}</g>
     <path fill="#04060c" d="M0 575 L120 568 L150 572 L162 590 L168 640 L180 700 L192 760 L200 844 H0Z"/>
-    <g transform="translate(122 570) scale(1.25)" fill="#04060c">
-      <path d="M-14 0C-12-4-8-6-5-6C-6-10-5-14-2-16C1-19 4-22 6-27L5-33L6-37L8-33L12-36L13-34L10-30C11-26 11-22 10-18C9-12 10-6 11 0L8 0C7-5 5-8 3-8C1-6 0-3 0 0Z"/>
-    </g>
+    <g transform="translate(58 448) scale(1.2)" fill="#04060c"><path fill-rule="evenodd" d="${WOLF_D}"/></g>
     ${nearTrees}
   </svg>`;
+}
+function makeFireflies() {
+  const box = document.createElement('div'); box.className = 'fireflies';
+  for (let i = 0; i < 16; i++) {
+    const f = document.createElement('i');
+    f.style.left = (8 + Math.random() * 84) + '%'; f.style.top = (58 + Math.random() * 36) + '%';
+    f.style.setProperty('--dx', (Math.random() * 60 - 30) + 'px'); f.style.setProperty('--dy', (-20 - Math.random() * 50) + 'px');
+    f.style.animationDuration = (5 + Math.random() * 6) + 's, ' + (2 + Math.random() * 3) + 's';
+    f.style.animationDelay = (-Math.random() * 8) + 's, ' + (-Math.random() * 3) + 's';
+    box.appendChild(f);
+  }
+  document.getElementById('backdrop').insertBefore(box, document.querySelector('#backdrop .vignette'));
 }
 function makeStars() {
   const w = innerWidth, h = innerHeight * .62;
@@ -584,6 +598,16 @@ function rulesBadges(rules) {
    iOS exige un geste pour démarrer l'audio : init() est appelé au 1er toucher.
    -------------------------------------------------------------------------- */
 const Sound = {
+  /* ------------------------------------------------------------------------
+     Moteur audio 100 % synthétisé (Web Audio) — aucun fichier, aucun bruit
+     continu (le souffle de vent des versions précédentes a été supprimé).
+       • menu  : nappe douce + boîte à musique, très discrète
+       • nuit  : musique pesante (ré mineur, battement de cœur, cordes sombres),
+                 loups au loin, bruissement de feuilles
+       • jour  : musique « chill » (piano électrique, basse ronde, mélodie)
+       • aube  : glissando de harpe (retour à la sécurité)
+     iOS exige un geste pour démarrer l'audio : init() est appelé au 1er toucher.
+     ------------------------------------------------------------------------ */
   ctx: null, master: null, amb: null, sfx: null, verb: null, noise: null,
   scene: null, layer: null, timers: [],
 
@@ -592,27 +616,92 @@ const Sound = {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return;
     const c = this.ctx = new AC();
-    this.master = c.createGain(); this.master.gain.value = S.settings.muted ? 0 : S.settings.volume; this.master.connect(c.destination);
-    this.amb = c.createGain(); this.amb.gain.value = .9; this.amb.connect(this.master);
+    this.master = c.createGain(); this.master.gain.value = S.settings.muted ? 0 : S.settings.volume;
+    // Compresseur doux en sortie : aucun pic agressif
+    const comp = c.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 3; comp.attack.value = .01; comp.release.value = .3;
+    this.master.connect(comp); comp.connect(c.destination);
+    this.amb = c.createGain(); this.amb.gain.value = .85;
+    const warm = c.createBiquadFilter(); warm.type = 'lowpass'; warm.frequency.value = 5200;   // coupe les aigus agressifs
+    this.amb.connect(warm); warm.connect(this.master);
     this.sfx = c.createGain(); this.sfx.connect(this.master);
-    // Réverbération (réponse impulsionnelle générée : bruit à décroissance exponentielle)
+    // Réverbération (salle sombre générée)
     this.verb = c.createConvolver();
-    const len = c.sampleRate * 3.2, ir = c.createBuffer(2, len, c.sampleRate);
-    for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.2); }
+    const len = c.sampleRate * 3.4, ir = c.createBuffer(2, len, c.sampleRate);
+    for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); let lp = 0; for (let i = 0; i < len; i++) { lp = lp * .6 + (Math.random() * 2 - 1) * .4; d[i] = lp * Math.pow(1 - i / len, 3); } }
     this.verb.buffer = ir;
-    const wet = c.createGain(); wet.gain.value = .55; this.verb.connect(wet); wet.connect(this.master);
-    // Bruit blanc réutilisable (vent, souffles)
+    const wet = c.createGain(); wet.gain.value = .5; this.verb.connect(wet); wet.connect(this.master);
+    // Bruit « rose » adouci (pour le bruissement des feuilles uniquement)
     const nb = c.createBuffer(1, c.sampleRate * 2, c.sampleRate), nd = nb.getChannelData(0);
-    for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    let b0 = 0, b1 = 0, b2 = 0;
+    for (let i = 0; i < nd.length; i++) { const w = Math.random() * 2 - 1; b0 = .997 * b0 + w * .029; b1 = .985 * b1 + w * .032; b2 = .95 * b2 + w * .048; nd[i] = (b0 + b1 + b2) * .6; }
     this.noise = nb;
-    if (this.pending) { const p = this.pending; this.pending = null; this.setScene(p); }
+    if (this.pending !== undefined) { const p = this.pending; this.pending = undefined; this.setScene(p); }
   },
   setVolume(v) { if (this.master) this.master.gain.setTargetAtTime(S.settings.muted ? 0 : v, this.ctx.currentTime, .1); },
-  duck(on) { if (this.amb) this.amb.gain.setTargetAtTime(on ? .35 : .9, this.ctx.currentTime, .3); },
+  duck(on) { if (this.amb) this.amb.gain.setTargetAtTime(on ? .3 : .85, this.ctx.currentTime, .3); },
   get on() { return this.ctx && this.ctx.state === 'running'; },
+  ok() { return this.on && S.settings.sfx; },
   rnd: (a, b) => a + Math.random() * (b - a),
+  hz: m => 440 * Math.pow(2, (m - 69) / 12),           // note MIDI → fréquence
 
-  /* ---- Scènes d'ambiance (fondu enchaîné) ---- */
+  /* ---- Instruments ---- */
+  pad(dest, notes, t, dur, level, cutoff = 650) {
+    const c = this.ctx, lp = c.createBiquadFilter(), g = c.createGain(), a = Math.min(2.4, dur * .4);
+    lp.type = 'lowpass'; lp.frequency.value = cutoff; lp.Q.value = .4;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(level, t + a); g.gain.setValueAtTime(level, t + dur - a); g.gain.linearRampToValueAtTime(0, t + dur);
+    lp.connect(g); g.connect(dest);
+    notes.forEach(m => [-7, 7].forEach(det => {
+      const o = c.createOscillator(); o.type = 'sawtooth'; o.frequency.value = this.hz(m); o.detune.value = det;
+      o.connect(lp); o.start(t); o.stop(t + dur + .05);
+    }));
+    return g;
+  },
+  epiano(dest, m, t, dur, level) {           // piano électrique (FM douce)
+    const c = this.ctx, f = this.hz(m), car = c.createOscillator(), mod = c.createOscillator(), mg = c.createGain(), g = c.createGain();
+    car.frequency.value = f; mod.frequency.value = f;
+    mg.gain.setValueAtTime(f * 1.1, t); mg.gain.exponentialRampToValueAtTime(f * .04, t + .7);
+    mod.connect(mg); mg.connect(car.frequency);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(level, t + .012); g.gain.exponentialRampToValueAtTime(level * .35, t + .45); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    car.connect(g); g.connect(dest);
+    car.start(t); mod.start(t); car.stop(t + dur + .05); mod.stop(t + dur + .05);
+  },
+  pluck(dest, m, t, level, decay = 1.8) {    // corde pincée (harpe, pizzicato, boîte à musique)
+    const c = this.ctx, f = this.hz(m), o = c.createOscillator(), o2 = c.createOscillator(), g2 = c.createGain(), lp = c.createBiquadFilter(), g = c.createGain();
+    o.type = 'triangle'; o.frequency.value = f; o2.frequency.value = f * 2; g2.gain.value = .3;
+    lp.type = 'lowpass'; lp.frequency.setValueAtTime(Math.min(9000, f * 7), t); lp.frequency.exponentialRampToValueAtTime(f * 1.4, t + decay);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(level, t + .004); g.gain.exponentialRampToValueAtTime(.0001, t + decay);
+    o.connect(lp); o2.connect(g2); g2.connect(lp); lp.connect(g); g.connect(dest);
+    o.start(t); o2.start(t); o.stop(t + decay + .05); o2.stop(t + decay + .05);
+    return g;
+  },
+  bass(dest, m, t, dur, level) {
+    const c = this.ctx, o = c.createOscillator(), lp = c.createBiquadFilter(), g = c.createGain();
+    o.type = 'triangle'; o.frequency.value = this.hz(m); lp.type = 'lowpass'; lp.frequency.value = 320;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(level, t + .02); g.gain.exponentialRampToValueAtTime(level * .5, t + dur * .6); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o.connect(lp); lp.connect(g); g.connect(dest); o.start(t); o.stop(t + dur + .05);
+  },
+  thump(dest, t, level) {                     // battement de cœur
+    const c = this.ctx, o = c.createOscillator(), g = c.createGain();
+    o.frequency.setValueAtTime(62, t); o.frequency.exponentialRampToValueAtTime(38, t + .18);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(level, t + .012); g.gain.exponentialRampToValueAtTime(.0001, t + .26);
+    o.connect(g); g.connect(dest); o.start(t); o.stop(t + .3);
+  },
+  /* Séquenceur : planifie chaque mesure un peu à l'avance sur l'horloge audio */
+  seq(L, bar, fn) {
+    let next = this.ctx.currentTime + .4, i = 0;
+    const pump = () => {
+      if (this.layer !== L) return;
+      while (next < this.ctx.currentTime + 1.5) { fn(next, i++); next += bar; }
+      this.timers.push(setTimeout(pump, 450));
+    };
+    pump();
+  },
+  loop(fn, min, max, first) {
+    const tick = () => { if (!this.layer) return; fn(); this.timers.push(setTimeout(tick, this.rnd(min, max))); };
+    this.timers.push(setTimeout(tick, first ?? this.rnd(min, max) / 2));
+  },
+
+  /* ---- Scènes (fondu enchaîné) ---- */
   setScene(name) {
     if (!S.settings.ambience) name = null;
     if (!this.ctx) { this.pending = name; return; }
@@ -621,137 +710,172 @@ const Sound = {
     this.timers.forEach(clearTimeout); this.timers = [];
     const c = this.ctx, t = c.currentTime;
     if (this.layer) {
-      const old = this.layer; old.gain.cancelScheduledValues(t); old.gain.setValueAtTime(old.gain.value, t); old.gain.linearRampToValueAtTime(0, t + 1.8);
-      setTimeout(() => { old.nodes.forEach(nd => { try { nd.stop(); } catch (e) { /* déjà arrêté */ } }); old.disconnect(); }, 2000);
+      const old = this.layer; old.gain.cancelScheduledValues(t); old.gain.setValueAtTime(old.gain.value, t); old.gain.linearRampToValueAtTime(0, t + 2.2);
+      setTimeout(() => old.disconnect(), 2600);
       this.layer = null;
     }
     if (!name) return;
-    const L = c.createGain(); L.nodes = []; L.gain.setValueAtTime(0, t); L.gain.linearRampToValueAtTime(1, t + 2.5); L.connect(this.amb);
+    const L = c.createGain(); L.gain.setValueAtTime(0, t); L.gain.linearRampToValueAtTime(1, t + 3); L.connect(this.amb);
     this.layer = L;
-    if (name === 'menu') { this.wind(L, .05, 380); }
-    if (name === 'night') { this.wind(L, .085, 300); this.loop(() => this.crickets(L), 900, 2600); this.loop(() => this.owl(L), 14000, 30000, 6000); this.loop(() => this.howl(.07), 38000, 70000, 22000); }
-    if (name === 'day') { this.wind(L, .035, 650); this.loop(() => this.bird(L), 1400, 4800); }
+    this['scene_' + name](L);
   },
-  loop(fn, min, max, first) {
-    const tick = () => { if (!this.layer) return; fn(); this.timers.push(setTimeout(tick, this.rnd(min, max))); };
-    this.timers.push(setTimeout(tick, first ?? this.rnd(min, max) / 3));
-  },
-  wind(L, level, freq) {
-    const c = this.ctx;
-    const src = c.createBufferSource(); src.buffer = this.noise; src.loop = true;
-    const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = freq; bp.Q.value = .6;
-    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1400;
-    const g = c.createGain(); g.gain.value = level;
-    const lfo = c.createOscillator(); lfo.frequency.value = .07; const lfoG = c.createGain(); lfoG.gain.value = freq * .45; lfo.connect(lfoG).connect(bp.frequency);
-    const gust = c.createOscillator(); gust.frequency.value = .045; const gustG = c.createGain(); gustG.gain.value = level * .6; gust.connect(gustG).connect(g.gain);
-    src.connect(bp).connect(lp).connect(g).connect(L);
-    src.start(); lfo.start(); gust.start();
-    L.nodes.push(src, lfo, gust);
-  },
-  crickets(L) {
-    const c = this.ctx, t0 = c.currentTime, f = this.rnd(4200, 4800), pulses = 2 + Math.floor(Math.random() * 3);
-    const pan = c.createStereoPanner ? c.createStereoPanner() : null;
-    const o = c.createOscillator(); o.frequency.value = f;
-    const g = c.createGain(); g.gain.value = 0;
-    for (let k = 0; k < pulses; k++) { const s = t0 + k * .065; g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(.012, s + .008); g.gain.linearRampToValueAtTime(0, s + .04); }
-    o.connect(g); if (pan) { pan.pan.value = this.rnd(-.9, .9); g.connect(pan).connect(L); } else g.connect(L);
-    o.start(t0); o.stop(t0 + pulses * .065 + .05);
-  },
-  owl(L) {
-    const c = this.ctx, t0 = c.currentTime;
-    [[0, .45], [.75, .22], [1.05, .5]].forEach(([d, dur]) => {
-      const o = c.createOscillator(); o.type = 'sine';
-      const s = t0 + d; o.frequency.setValueAtTime(410, s); o.frequency.linearRampToValueAtTime(370, s + dur);
-      const g = c.createGain(); g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(.045, s + .06); g.gain.setValueAtTime(.045, s + dur - .1); g.gain.linearRampToValueAtTime(0, s + dur);
-      o.connect(g); g.connect(L); g.connect(this.verb); o.start(s); o.stop(s + dur + .05);
+
+  scene_menu(L) {
+    // La mineur, nappe lente + boîte à musique clairsemée
+    const chords = [[45, 52, 59, 60], [41, 48, 55, 57], [43, 50, 55, 59], [40, 47, 55, 59]];
+    const box = [81, 84, 86, 88, 91, 93];
+    this.seq(L, 8, (t, i) => {
+      this.pad(L, chords[i % 4], t, 9, .012, 520);
+      for (let k = 0; k < 8; k++) if (Math.random() < .45) this.pluck(L, box[Math.floor(Math.random() * box.length)], t + k + this.rnd(0, .3), .022, 2.6);
     });
   },
-  bird(L) {
-    const c = this.ctx, t0 = c.currentTime, base = this.rnd(2400, 3600), n = 2 + Math.floor(Math.random() * 4);
+
+  scene_night(L) {
+    // Ré mineur, 56 bpm : cordes sombres, basse grave, pizzicati, battement de cœur
+    const beat = 60 / 56, bar = beat * 4;
+    const prog = [[50, 53, 57], [46, 50, 53], [43, 46, 50], [45, 49, 52]];   // Dm – B♭ – Gm – A
+    const roots = [38, 34, 31, 33];
+    this.seq(L, bar, (t, i) => {
+      const k = Math.floor(i / 2) % 4;
+      if (i % 2 === 0) { this.pad(L, prog[k], t, bar * 2 + .6, .011, 480); this.bass(L, roots[k] + 12, t, bar * 2, .07); }
+      for (let b = 0; b < 4; b++) { this.thump(L, t + b * beat, .055); this.thump(L, t + b * beat + .24, .035); }
+      // pizzicato sourd (croches)
+      const notes = prog[k];
+      for (let e = 0; e < 8; e++) if (e % 2 === 0 || Math.random() < .3) this.pluck(L, notes[(e * 2) % 3] - 12, t + e * beat / 2, .03, .5);
+      // tension : note aiguë dissonante qui gonfle, une mesure sur quatre
+      if (i % 4 === 3) {
+        const o = this.ctx.createOscillator(), g = this.ctx.createGain(), v = this.ctx.createOscillator(), vg = this.ctx.createGain();
+        o.type = 'triangle'; o.frequency.value = this.hz(k === 3 ? 82 : 75);
+        v.frequency.value = 5; vg.gain.value = 4; v.connect(vg); vg.connect(o.frequency);
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.012, t + bar * .7); g.gain.linearRampToValueAtTime(0, t + bar);
+        o.connect(g); g.connect(L); g.connect(this.verb); o.start(t); v.start(t); o.stop(t + bar + .1); v.stop(t + bar + .1);
+      }
+    });
+    this.loop(() => this.leaves(L), 5000, 12000, 2500);
+    this.loop(() => { this.howl(.045, true, L); if (Math.random() < .5) setTimeout(() => this.howl(.03, true, L, 1.12), 1300); }, 16000, 32000, 7000);
+  },
+
+  scene_day(L) {
+    // Do majeur, 84 bpm : Fmaj7 – Em7 – Dm7 – Cmaj7, piano électrique + basse + mélodie
+    const beat = 60 / 84, bar = beat * 4;
+    const prog = [[53, 57, 60, 64], [52, 55, 59, 62], [50, 53, 57, 60], [48, 52, 55, 59]];
+    const roots = [41, 40, 38, 36];
+    const penta = [72, 74, 76, 79, 81, 84];
+    let last = 2;
+    this.seq(L, bar, (t, i) => {
+      const k = i % 4, ch = prog[k];
+      ch.forEach((m, j) => this.epiano(L, m, t + j * .025, bar * .9, .036));
+      ch.forEach(m => this.epiano(L, m, t + beat * 2.5, beat * 1.3, .021));
+      this.bass(L, roots[k], t, beat * 1.8, .1); this.bass(L, roots[k] + 7, t + beat * 2, beat * 1.5, .07);
+      for (let e = 0; e < 8; e++) {
+        if (Math.random() < .3) { last = Math.max(0, Math.min(penta.length - 1, last + Math.floor(this.rnd(-2, 3)))); this.epiano(L, penta[last], t + e * beat / 2 + this.rnd(0, .02), beat * 1.2, .03); }
+      }
+    });
+    this.loop(() => this.bird(L), 9000, 18000, 6000);
+  },
+
+  /* ---- Bruitages d'ambiance ---- */
+  leaves(L) {                                  // bruissement de feuilles (bref, doux, filtré)
+    const c = this.ctx, t0 = c.currentTime, dur = this.rnd(1.2, 2.4);
+    const src = c.createBufferSource(); src.buffer = this.noise; src.loop = true;
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = this.rnd(900, 1600); bp.Q.value = .8;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2400;
+    const g = c.createGain(); g.gain.setValueAtTime(0, t0);
+    for (let k = 0; k < 10; k++) g.gain.linearRampToValueAtTime(this.rnd(.02, .06), t0 + dur * (k + .5) / 10);
+    g.gain.linearRampToValueAtTime(0, t0 + dur);
     const pan = c.createStereoPanner ? c.createStereoPanner() : null;
-    const out = c.createGain(); out.gain.value = .022;
-    if (pan) { pan.pan.value = this.rnd(-.8, .8); out.connect(pan).connect(L); } else out.connect(L);
+    src.connect(bp); bp.connect(lp); lp.connect(g);
+    if (pan) { pan.pan.value = this.rnd(-.8, .8); g.connect(pan); pan.connect(L); } else g.connect(L);
+    src.start(t0, Math.random()); src.stop(t0 + dur + .05);
+  },
+  bird(L) {
+    const c = this.ctx, t0 = c.currentTime, base = this.hz([84, 86, 88, 91][Math.floor(Math.random() * 4)]), n = 2 + Math.floor(Math.random() * 3);
+    const out = c.createGain(); out.gain.value = .012;
+    const pan = c.createStereoPanner ? c.createStereoPanner() : null;
+    if (pan) { pan.pan.value = this.rnd(-.7, .7); out.connect(pan); pan.connect(L); } else out.connect(L);
     for (let k = 0; k < n; k++) {
-      const s = t0 + k * this.rnd(.09, .16), o = c.createOscillator(), g = c.createGain();
-      o.frequency.setValueAtTime(base, s); o.frequency.exponentialRampToValueAtTime(base * this.rnd(1.3, 1.7), s + .06);
-      g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(1, s + .01); g.gain.exponentialRampToValueAtTime(.001, s + .08);
-      o.connect(g).connect(out); o.start(s); o.stop(s + .1);
+      const s = t0 + k * this.rnd(.11, .18), o = c.createOscillator(), g = c.createGain();
+      o.frequency.setValueAtTime(base, s); o.frequency.exponentialRampToValueAtTime(base * 1.25, s + .06);
+      g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(1, s + .015); g.gain.exponentialRampToValueAtTime(.001, s + .1);
+      o.connect(g); g.connect(out); o.start(s); o.stop(s + .12);
     }
   },
 
   /* ---- Effets ---- */
-  ok(kind) { return this.on && S.settings.sfx; },
-  howl(level = .16) {
+  howl(level = .14, distant = false, dest = null, pitch = 1) {
     if (!this.on || (!S.settings.sfx && !S.settings.ambience)) return;
-    const c = this.ctx, t0 = c.currentTime + .05, dur = 3.4;
-    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1500;
-    const bp = c.createBiquadFilter(); bp.type = 'peaking'; bp.frequency.value = 900; bp.gain.value = 8;
-    const g = c.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(level, t0 + .5); g.gain.setValueAtTime(level, t0 + 2.2); g.gain.linearRampToValueAtTime(0, t0 + dur);
-    lp.connect(bp).connect(g); g.connect(this.sfx); g.connect(this.verb);
-    const vib = c.createOscillator(); vib.frequency.value = 5.2; const vibG = c.createGain(); vibG.gain.setValueAtTime(0, t0); vibG.gain.linearRampToValueAtTime(9, t0 + 1.2); vib.connect(vibG);
-    [[0, 'sawtooth', .5], [6, 'triangle', .8]].forEach(([det, type, amp]) => {
+    const c = this.ctx, t0 = c.currentTime + .05, dur = 3.6;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = distant ? 900 : 1500;
+    const pk = c.createBiquadFilter(); pk.type = 'peaking'; pk.frequency.value = 850; pk.gain.value = 7;
+    const g = c.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(level, t0 + .6); g.gain.setValueAtTime(level, t0 + 2.2); g.gain.linearRampToValueAtTime(0, t0 + dur);
+    lp.connect(pk); pk.connect(g);
+    if (!distant) g.connect(dest || this.sfx);
+    const send = c.createGain(); send.gain.value = distant ? 1.4 : .7; g.connect(send); send.connect(this.verb);
+    if (distant && dest) { const dry = c.createGain(); dry.gain.value = .35; g.connect(dry); dry.connect(dest); }
+    const vib = c.createOscillator(); vib.frequency.value = 5.2; const vibG = c.createGain(); vibG.gain.setValueAtTime(0, t0); vibG.gain.linearRampToValueAtTime(8, t0 + 1.3); vib.connect(vibG);
+    [[0, 'sawtooth', .45], [5, 'triangle', .8]].forEach(([det, type, amp]) => {
       const o = c.createOscillator(); o.type = type; o.detune.value = det * 10;
-      o.frequency.setValueAtTime(290, t0); o.frequency.exponentialRampToValueAtTime(560, t0 + .8); o.frequency.linearRampToValueAtTime(520, t0 + 2.2); o.frequency.exponentialRampToValueAtTime(330, t0 + dur);
+      o.frequency.setValueAtTime(285 * pitch, t0); o.frequency.exponentialRampToValueAtTime(545 * pitch, t0 + .85); o.frequency.linearRampToValueAtTime(510 * pitch, t0 + 2.2); o.frequency.exponentialRampToValueAtTime(320 * pitch, t0 + dur);
       vibG.connect(o.frequency);
-      const a = c.createGain(); a.gain.value = amp; o.connect(a).connect(lp); o.start(t0); o.stop(t0 + dur + .1);
+      const a = c.createGain(); a.gain.value = amp; o.connect(a); a.connect(lp); o.start(t0); o.stop(t0 + dur + .1);
     });
     vib.start(t0); vib.stop(t0 + dur + .1);
   },
-  bell() {
+  harp() {                                     // glissando de harpe : retour à la sécurité
     if (!this.ok()) return;
-    const c = this.ctx, t0 = c.currentTime + .02, base = 196;
-    [[.5, .06, 4], [1, .08, 3.4], [1.19, .05, 2.6], [1.56, .04, 2.2], [2, .05, 2], [2.51, .03, 1.6], [3.01, .025, 1.3]].forEach(([r, a, d]) => {
-      const o = c.createOscillator(); o.frequency.value = base * r;
-      const g = c.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(a, t0 + .01); g.gain.exponentialRampToValueAtTime(.0001, t0 + d);
+    const t0 = this.ctx.currentTime + .05;
+    const run = [60, 64, 67, 71, 74, 76, 79, 83, 86, 88, 91, 95, 98];
+    run.forEach((m, k) => { const g = this.pluck(this.sfx, m, t0 + k * .065, .07, 3.2); g.connect(this.verb); });
+    [72, 76, 79, 83].forEach(m => { const g = this.pluck(this.sfx, m, t0 + run.length * .065 + .25, .05, 4); g.connect(this.verb); });
+  },
+  nightfall() {                                // gong grave + hurlement
+    if (!this.ok()) return;
+    const c = this.ctx, t0 = c.currentTime + .02;
+    [[1, .12, 6], [2.76, .04, 3], [5.4, .02, 2], [8.9, .01, 1.4]].forEach(([r, a, d]) => {
+      const o = c.createOscillator(), g = c.createGain(); o.frequency.value = 55 * r;
+      g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(a, t0 + .03); g.gain.exponentialRampToValueAtTime(.0001, t0 + d);
       o.connect(g); g.connect(this.sfx); g.connect(this.verb); o.start(t0); o.stop(t0 + d + .1);
     });
+    setTimeout(() => this.howl(.13), 700);
   },
+  bell() { this.harp(); },
   flip() {
     if (!this.ok()) return;
     const c = this.ctx, t0 = c.currentTime;
     const src = c.createBufferSource(); src.buffer = this.noise;
-    const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 1.2; bp.frequency.setValueAtTime(700, t0); bp.frequency.exponentialRampToValueAtTime(3800, t0 + .2);
-    const g = c.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(.22, t0 + .03); g.gain.exponentialRampToValueAtTime(.001, t0 + .26);
-    src.connect(bp).connect(g).connect(this.sfx); src.start(t0); src.stop(t0 + .3);
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 1; bp.frequency.setValueAtTime(500, t0); bp.frequency.exponentialRampToValueAtTime(2200, t0 + .2);
+    const g = c.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(.5, t0 + .03); g.gain.exponentialRampToValueAtTime(.001, t0 + .24);
+    src.connect(bp); bp.connect(g); g.connect(this.sfx); src.start(t0); src.stop(t0 + .3);
   },
   reveal() {
     if (!this.ok()) return;
-    const c = this.ctx, t0 = c.currentTime + .45;
-    [1318.5, 1568, 1975.5, 2637].forEach((f, k) => {
-      const s = t0 + k * .07, o = c.createOscillator(), g = c.createGain(); o.frequency.value = f;
-      g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(.035, s + .01); g.gain.exponentialRampToValueAtTime(.0001, s + .9);
-      o.connect(g); g.connect(this.sfx); g.connect(this.verb); o.start(s); o.stop(s + 1);
-    });
+    const t0 = this.ctx.currentTime + .4;
+    [76, 79, 83, 88].forEach((m, k) => { const g = this.pluck(this.sfx, m, t0 + k * .08, .035, 1.6); g.connect(this.verb); });
   },
   tap() {
     if (!this.ok()) return;
     const c = this.ctx, t0 = c.currentTime, o = c.createOscillator(), g = c.createGain();
-    o.frequency.setValueAtTime(900, t0); o.frequency.exponentialRampToValueAtTime(500, t0 + .05);
-    g.gain.setValueAtTime(.06, t0); g.gain.exponentialRampToValueAtTime(.0001, t0 + .07);
-    o.connect(g).connect(this.sfx); o.start(t0); o.stop(t0 + .08);
+    o.frequency.setValueAtTime(880, t0); o.frequency.exponentialRampToValueAtTime(520, t0 + .05);
+    g.gain.setValueAtTime(.04, t0); g.gain.exponentialRampToValueAtTime(.0001, t0 + .07);
+    o.connect(g); g.connect(this.sfx); o.start(t0); o.stop(t0 + .08);
   },
   tick() {
     if (!this.ok()) return;
     const c = this.ctx, t0 = c.currentTime, o = c.createOscillator(), g = c.createGain();
-    o.frequency.value = 1320; g.gain.setValueAtTime(.08, t0); g.gain.exponentialRampToValueAtTime(.0001, t0 + .06);
-    o.connect(g).connect(this.sfx); o.start(t0); o.stop(t0 + .07);
+    o.type = 'triangle'; o.frequency.value = 880; g.gain.setValueAtTime(.07, t0); g.gain.exponentialRampToValueAtTime(.0001, t0 + .08);
+    o.connect(g); g.connect(this.sfx); o.start(t0); o.stop(t0 + .09);
   },
   doom() {
     if (!this.ok()) return;
     const c = this.ctx, t0 = c.currentTime + .05, o = c.createOscillator(), g = c.createGain();
-    o.frequency.setValueAtTime(110, t0); o.frequency.exponentialRampToValueAtTime(42, t0 + .9);
-    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(.38, t0 + .02); g.gain.exponentialRampToValueAtTime(.0001, t0 + 1.4);
-    o.connect(g); g.connect(this.sfx); g.connect(this.verb); o.start(t0); o.stop(t0 + 1.5);
+    o.frequency.setValueAtTime(98, t0); o.frequency.exponentialRampToValueAtTime(41, t0 + 1);
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(.32, t0 + .02); g.gain.exponentialRampToValueAtTime(.0001, t0 + 1.5);
+    o.connect(g); g.connect(this.sfx); g.connect(this.verb); o.start(t0); o.stop(t0 + 1.6);
   },
   chime() {
     if (!this.ok()) return;
-    const c = this.ctx;
-    [523.25, 659.25, 783.99].forEach((f, k) => {
-      const o = c.createOscillator(), g = c.createGain(), t0 = c.currentTime + k * .22;
-      o.frequency.value = f;
-      g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(.25, t0 + .02); g.gain.exponentialRampToValueAtTime(.0001, t0 + .9);
-      o.connect(g); g.connect(this.sfx); g.connect(this.verb); o.start(t0); o.stop(t0 + 1);
-    });
+    const t0 = this.ctx.currentTime;
+    [72, 76, 79].forEach((m, k) => { const g = this.pluck(this.sfx, m, t0 + k * .22, .09, 1.8); g.connect(this.verb); });
   },
 };
 /* Ambiance associée à chaque écran */
@@ -802,6 +926,9 @@ function render() {
   const large = LARGE.includes(S.screen) ? `<h1 class="large-title">${esc(TITLES[S.screen])}</h1>` : '';
   view.innerHTML = `<div class="page page-${S.screen} ${same ? '' : 'enter-' + (S.dir || 'fwd')}">${large}${o.body}</div>`;
   view.dataset.screen = S.screen;
+  if (!same) view.querySelectorAll('.cards-grid, .steps, .vote-grid, .roster, .deck-picks, .decks, .talk, .chips, .home-links').forEach(g => {
+    g.classList.add('stagger'); [...g.children].forEach((c, i) => c.style.setProperty('--i', Math.min(i, 18)));
+  });
   $('#dock').innerHTML = o.dock ? `<div class="dock-row">${o.dock}</div>` : '';
   view.scrollTop = keep;
   document.body.classList.toggle('has-large', !!large);
@@ -831,7 +958,7 @@ function back() {
   else if (S.screen === 'result') endGame();
   else go(S.stack.pop() || 'home', { replace: true, dir: 'back' });
 }
-function endGame() { stopTimer(); keepAwake(false); G = null; S.stack = []; go('home', { replace: true, dir: 'back' }); }
+function endGame() { stopTimer(); keepAwake(false); G = null; S.stack = []; if (S.updateReady) { reloading = true; location.reload(); return; } go('home', { replace: true, dir: 'back' }); }
 
 /* --------------------------------------------------------------------------
    10. ÉCRANS
@@ -1021,6 +1148,17 @@ SCREENS.deal = () => {
   };
 };
 AFTER.deal = () => { if (G.deal.stage === 'card') updateDealUI(); };
+/* Transition plein écran : la nuit tombe / le jour se lève */
+function phaseFx(kind, text) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const el = document.createElement('div');
+  el.className = `phase-fx phase-${kind}`;
+  el.innerHTML = kind === 'night'
+    ? `<div class="pf-sky"></div><span class="pf-moon"></span>${wolfSVG('pf-wolf')}<p class="pf-text">${esc(text)}</p>`
+    : `<div class="pf-sky"></div><span class="pf-sun"></span><span class="pf-rays"></span><p class="pf-text">${esc(text)}</p>`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3400);
+}
 function updateMuteBtn() {
   const b = $('#muteBtn'); if (!b) return;
   b.innerHTML = icon(S.settings.muted ? 'mute' : 'speaker');
@@ -1045,7 +1183,7 @@ SCREENS.night = () => {
   if (!G.night.started) {
     return {
       body: `<div class="night-intro panel ornate">
-          <div class="moon-ico">${icon('moon')}</div>
+          <div class="moon-wolf"><span class="mw-moon"></span>${wolfSVG('mw-wolf')}</div>
           <h2 class="h2">La nuit tombe…</h2>
           <p class="muted">Le maître du jeu garde l'appareil. ${steps.length} rôle${steps.length > 1 ? 's seront appelés' : ' sera appelé'}, y compris ceux qui dorment au centre, pour ne rien trahir.</p>
         </div>`,
@@ -1076,7 +1214,7 @@ SCREENS.mnight = () => {
     const limit = G.rules.nights > 1 ? ` sur ${G.rules.nights}` : '';
     return {
       body: `<div class="night-intro panel ornate">
-          <div class="moon-ico">${icon('moon')}</div>
+          <div class="moon-wolf"><span class="mw-moon"></span>${wolfSVG('mw-wolf')}</div>
           <p class="kicker">Nuit ${roman(G.round)}${limit}</p>
           <h2 class="h2">${G.round === 1 ? 'La première nuit tombe…' : 'La nuit retombe sur le village…'}</h2>
           <p class="muted">${G.players.filter(p => p.alive).length} survivants. Le maître du jeu garde l'appareil et appelle ${steps.length} rôle${steps.length > 1 ? 's' : ''}.</p>
@@ -1292,8 +1430,8 @@ SCREENS.settings = () => {
   return `<div class="settings-grid">
     <section class="panel ornate">
       <div class="panel-title">${icon('music')}Son</div>
-      ${sw('ambience', 'Ambiance', 'Vent, grillons et chouette la nuit, oiseaux le jour')}
-      ${sw('sfx', 'Effets sonores', 'Cartes, hurlement des loups, cloche de l\'aube')}
+      ${sw('ambience', 'Musique d\'ambiance', 'Nuit pesante avec loups et feuillages, journée « chill », harpe à l\'aube')}
+      ${sw('sfx', 'Effets sonores', 'Cartes, hurlement à la tombée de la nuit, glas des éliminations')}
       ${sw('voice', 'Narration vocale', 'L\'appareil lit les appels de nuit (voix française)')}
       <div class="setting" style="display:block"><div class="row between"><span><b>Volume</b></span><b class="gold-num" id="volVal">${Math.round(st.volume * 100)} %</b></div>
         <input type="range" class="range" min="0" max="1" step="0.05" value="${st.volume}" data-set="volume" aria-label="Volume"></div>
@@ -1309,6 +1447,11 @@ SCREENS.settings = () => {
     <section class="panel">
       <div class="panel-title">${icon('trash')}Données</div>
       <div class="row wrap"><button class="btn sm btn-danger" data-act="resetDecks">Supprimer mes decks</button><button class="btn sm" data-act="clearPlayers">Oublier les joueurs</button></div>
+    </section>
+    <section class="panel">
+      <div class="panel-title">${icon('info')}Application</div>
+      <div class="row between"><span><b>Version ${CONFIG.version}</b><small class="faint" style="display:block;font-size:12.5px;margin-top:3px">Les mises à jour s'installent automatiquement au lancement.</small></span>
+        <button class="btn sm" data-act="checkUpdate">${icon('reset')}Vérifier</button></div>
     </section></div>`;
 };
 
@@ -1514,7 +1657,7 @@ function resolveNightMulti() {
   if (N.poison != null) kill(N.poison, 'nuit');
   G.lastGuard = N.guard;
   if (!G.announce.deaths.length) G.chronicle.push(`Nuit ${G.round} — personne ne meurt.`);
-  Sound.bell(); if (G.announce.deaths.length) setTimeout(() => Sound.doom(), 1600);
+  Sound.harp(); phaseFx('day', 'Le jour se lève'); if (G.announce.deaths.length) setTimeout(() => Sound.doom(), 2600);
   say(G.announce.deaths.length ? `Le village se réveille. Cette nuit, ${G.announce.deaths.map(i => G.players[i].name).join(' et ')} ${G.announce.deaths.length > 1 ? 'sont morts' : 'est mort'}.` : 'Le village se réveille. Personne n\'est mort cette nuit.');
   go('announce', { replace: true });
 }
@@ -1819,8 +1962,8 @@ const A = {
 
   /* Nuit — une nuit */
   sleep() {
-    const steps = nightStepsNuit(); G.night.started = true;
-    Sound.howl();
+    const steps = nightStepsNuit(); G.night.started = true; phaseFx('night', 'La nuit tombe…');
+    Sound.nightfall();
     setTimeout(() => say(`Tout le monde ferme les yeux. Le village s'endort. ${steps[0] ? steps[0].text : ''}`), 1800);
     render();
   },
@@ -1856,15 +1999,15 @@ const A = {
   },
   dawnNuit() {
     const pending = nightStepsNuit().some((_, k) => !G.night.done[k]);
-    const goDay = () => { Sound.bell(); say('Tout le monde se réveille ! Le jour se lève sur le village.'); startDay(); };
+    const goDay = () => { Sound.harp(); phaseFx('day', 'Le jour se lève'); say('Tout le monde se réveille ! Le jour se lève sur le village.'); startDay(); };
     if (pending) confirmSheet('Lever le jour ?', 'Certains rôles n\'ont pas encore été appelés.', 'Le jour se lève', goDay); else goDay();
   },
 
   /* Nuit — plusieurs nuits */
   sleepM() {
-    G.nightStarted = true;
+    G.nightStarted = true; phaseFx('night', G.round === 1 ? 'La nuit tombe…' : `Nuit ${G.round}`);
     const steps = nightStepsMulti();
-    Sound.howl();
+    Sound.nightfall();
     setTimeout(() => say(`Tout le monde ferme les yeux. Le village s'endort. ${steps[0] ? steps[0].text : ''}`), 1800);
     render();
   },
@@ -1900,7 +2043,7 @@ const A = {
     if (!w && G.announce.kind === 'vote' && G.rules.nights > 1 && G.round >= G.rules.nights) { w = 'loup'; G.limitReached = true; }
     if (w) {
       G.winner = w; G.lastPhase = G.announce.kind === 'vote' ? 'vote' : 'dawn'; keepAwake(false);
-      if (w === 'loup') Sound.howl(.2); else Sound.bell();
+      if (w === 'loup') Sound.howl(.2); else Sound.harp();
       say({ loup: 'Les Loups-Garous ont gagné.', village: 'Le village a gagné.', tanneur: 'Le Tanneur a gagné.', aucun: 'Il ne reste personne.' }[w]);
       go('result', { replace: true }); return;
     }
@@ -1948,6 +2091,7 @@ const A = {
   },
   roleInfoGame(el) { roleSheet(el.dataset.id, G.format); },
   rematch() { G = null; startGame(); },
+  checkUpdate() { checkForUpdate(); },
   toggleMute() {
     S.settings.muted = !S.settings.muted; saveAll(); Sound.init(); Sound.setVolume(S.settings.volume);
     if (S.settings.muted && 'speechSynthesis' in window) speechSynthesis.cancel();
@@ -1955,7 +2099,7 @@ const A = {
   },
 
   /* Réglages */
-  testSound() { Sound.init(); Sound.howl(); setTimeout(() => Sound.bell(), 2600); },
+  testSound() { Sound.init(); Sound.nightfall(); setTimeout(() => Sound.harp(), 4200); },
   resetDecks() {
     confirmSheet('Supprimer vos decks ?', 'Vos decks personnels seront effacés. Les decks fournis restent.', 'Supprimer', () => {
       S.custom = []; S.deckId = DEFAULT_DECKS[0].id; saveAll(); toast('Decks supprimés'); render();
@@ -2015,12 +2159,39 @@ function enter() {
   Sound.init();
   render();
 }
+/* Service worker + mises à jour fiables (iOS compris) :
+   - le navigateur revérifie sw.js à chaque lancement et au retour au premier plan ;
+   - quand une nouvelle version prend le contrôle, l'app se recharge d'elle-même,
+     sauf en pleine partie (elle attend le retour à l'accueil). */
+let swReg = null, reloading = false;
+function applyUpdate() {
+  if (reloading) return;
+  if (G && IN_GAME.includes(S.screen)) { S.updateReady = true; toast('Mise à jour prête : elle s\'appliquera à la fin de la partie'); return; }
+  reloading = true; location.reload();
+}
 function registerSW() {
   if (!('serviceWorker' in navigator) || !location.protocol.startsWith('http')) return;
-  navigator.serviceWorker.register('./sw.js').then(() => navigator.serviceWorker.ready).then(reg => {
+  const hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController) applyUpdate(); });
+  navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then(reg => {
+    swReg = reg;
+    reg.update().catch(() => {});
+    return navigator.serviceWorker.ready;
+  }).then(reg => {
     const urls = [CONFIG.cardBack, './assets/images/accueil.jpg', './assets/images/accueil-paysage.jpg', ...ROLES.map(r => r.image_url)];
     reg.active && reg.active.postMessage({ type: 'WARM_IMAGES', urls });
   }).catch(() => { /* hors HTTPS ou refusé */ });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && swReg) swReg.update().catch(() => {}); });
+}
+async function checkForUpdate() {
+  if (!swReg) return toast('Mises à jour indisponibles hors connexion');
+  toast('Recherche d\'une mise à jour…');
+  try {
+    await swReg.update();
+    const w = swReg.installing || swReg.waiting;
+    if (w) { toast('Nouvelle version trouvée, installation…'); w.postMessage({ type: 'SKIP_WAITING' }); }
+    else toast(`Vous avez la dernière version (${CONFIG.version})`);
+  } catch (e) { toast('Impossible de vérifier (hors connexion ?)'); }
 }
 (function boot() {
   if (!getDeck(S.deckId)) S.deckId = DEFAULT_DECKS[0].id;
@@ -2030,6 +2201,7 @@ function registerSW() {
   });
   buildScene();
   makeStars();
+  makeFireflies();
   $('#view').addEventListener('scroll', e => document.body.classList.toggle('scrolled', e.target.scrollTop > 36), { passive: true });
   let rsT; window.addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(makeStars, 250); });
   if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = () => {};

@@ -766,3 +766,77 @@ body.timer-danger #tText{color:#ff8a96;text-shadow:0 0 22px rgba(215,80,95,.6)}
 .logo-title{white-space:nowrap;font-size:clamp(30px,11.2vw,86px)}
 .home-head .logo-title{font-size:clamp(28px,10.4vw,84px)}
 @media (min-width:700px){.home-head .logo-title{font-size:clamp(46px,7vw,84px)}}
+
+/* -------------------------------------------------------------------------
+   13. ANIMATIONS v5
+   ------------------------------------------------------------------------- */
+/* Décor vivant : très lent zoom avant/arrière de l'illustration */
+#backdrop .bg-art.is-loaded{animation:kenburns 48s ease-in-out infinite alternate;transform-origin:60% 70%}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07) translate(-1%,-1%)}}
+/* Lucioles près du village */
+.fireflies{position:absolute;inset:0;pointer-events:none}
+.fireflies i{position:absolute;width:4px;height:4px;border-radius:50%;background:#ffe39a;box-shadow:0 0 8px 2px rgba(255,214,120,.7);animation:ffly ease-in-out infinite alternate,blinkf ease-in-out infinite}
+@keyframes ffly{from{transform:translate(0,0)}to{transform:translate(var(--dx),var(--dy))}}
+@keyframes blinkf{0%,100%{opacity:.1}50%{opacity:1}}
+
+/* Reflet doré qui balaie le titre */
+.logo-title{background-image:linear-gradient(110deg,#8E7224 0%,#D4AF37 28%,#FFF6D0 44%,#EBCB66 52%,#D4AF37 64%,#8E7224 100%);background-size:260% 100%;animation:sheenText 7s ease-in-out infinite}
+#splash .logo-title{animation:sheenText 7s ease-in-out infinite}
+@keyframes sheenText{0%,30%{background-position:100% 0}70%,100%{background-position:0 0}}
+
+/* Bouton Jouer : reflet périodique */
+.btn-gold{overflow:hidden}
+.btn-gold.glow::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:btnSheen 4.5s ease-in-out infinite}
+@keyframes btnSheen{0%,60%{left:-60%}100%{left:130%}}
+
+/* Apparitions en cascade */
+.stagger > *{animation:staggerIn .5s calc(var(--i,0) * 40ms + 60ms) cubic-bezier(.2,.9,.25,1.1) both}
+@keyframes staggerIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+
+/* Carte distribuée : arrive en glissant */
+.deal .tcard{animation:dealIn .7s cubic-bezier(.2,.9,.25,1.15) both}
+@keyframes dealIn{from{opacity:0;transform:translateY(60px) rotate(-8deg) scale(.88)}to{opacity:1;transform:none}}
+/* Passage de l'appareil : halo qui respire autour de l'avatar */
+.handoff .av.lg{animation:avPulse 2.2s ease-in-out infinite}
+@keyframes avPulse{0%,100%{box-shadow:0 0 0 4px rgba(4,6,11,.5),0 0 0 0 rgba(212,175,55,.45)}50%{box-shadow:0 0 0 4px rgba(4,6,11,.5),0 0 0 14px rgba(212,175,55,0)}}
+.handoff h2{animation:fadeUp .6s .1s both}
+/* Vote : sélection qui « rebondit » */
+.vtile.sel{animation:pop2 .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop2{0%{transform:scale(.94)}100%{transform:scale(1)}}
+/* Étape de nuit en cours : lueur qui pulse */
+.step.current{animation:stepGlow 2.4s ease-in-out infinite}
+@keyframes stepGlow{0%,100%{box-shadow:0 0 0 1px var(--gold-line),0 0 18px rgba(212,175,55,.12),0 14px 34px rgba(0,0,0,.45)}50%{box-shadow:0 0 0 1px var(--gold),0 0 36px rgba(212,175,55,.3),0 14px 34px rgba(0,0,0,.45)}}
+/* Toast à ressort */
+#toast{transition:opacity .3s,transform .45s cubic-bezier(.3,1.5,.5,1)}
+
+/* Intro de nuit : lune qui respire + silhouette du loup */
+.moon-wolf{position:relative;width:150px;height:150px;margin:0 auto 4px}
+.mw-moon{position:absolute;left:50%;top:10px;width:112px;height:112px;margin-left:-56px;border-radius:50%;background:radial-gradient(circle at 40% 38%,#fffbea,#e8e1c4 62%,#b9b39a);box-shadow:0 0 40px 8px rgba(235,240,255,.25),0 0 120px 30px rgba(150,180,220,.15);animation:moonBreath 4s ease-in-out infinite}
+@keyframes moonBreath{0%,100%{box-shadow:0 0 34px 6px rgba(235,240,255,.22),0 0 100px 24px rgba(150,180,220,.12)}50%{box-shadow:0 0 52px 12px rgba(235,240,255,.34),0 0 150px 40px rgba(150,180,220,.2)}}
+.mw-wolf{position:absolute;left:50%;bottom:0;width:80px;height:118px;margin-left:-46px;fill:#05080c;filter:drop-shadow(1px -1px 0 rgba(185,211,226,.6));animation:wolfHowl 4s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes wolfHowl{0%,100%{transform:none}50%{transform:translateY(-2px) rotate(-1.5deg)}}
+
+/* Transition plein écran nuit / jour */
+.phase-fx{position:fixed;inset:0;z-index:90;pointer-events:none;display:grid;place-items:center;overflow:hidden;animation:pfOut 3.3s ease both}
+@keyframes pfOut{0%{opacity:0}12%{opacity:1}72%{opacity:1}100%{opacity:0}}
+.phase-fx .pf-text{position:absolute;left:0;right:0;top:58%;text-align:center;font-family:var(--f-title);font-size:clamp(26px,8vw,48px);font-weight:700;letter-spacing:.1em;color:var(--ink);text-shadow:0 2px 24px rgba(0,0,0,.8);animation:pfText 3.3s ease both}
+@keyframes pfText{0%,18%{opacity:0;transform:translateY(16px);letter-spacing:.3em}45%,80%{opacity:1;transform:none;letter-spacing:.1em}100%{opacity:0}}
+.phase-night .pf-sky{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,#162238 0%,#05070d 70%);animation:curtain 3.3s ease both}
+@keyframes curtain{0%{clip-path:inset(0 0 100% 0)}35%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 0 0)}}
+.phase-night .pf-moon{position:absolute;left:50%;top:22%;width:150px;height:150px;margin-left:-75px;border-radius:50%;background:radial-gradient(circle at 40% 38%,#fffbea,#e8e1c4 62%,#b9b39a);box-shadow:0 0 60px 14px rgba(235,240,255,.3),0 0 180px 50px rgba(150,180,220,.18);animation:moonRise 3.3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes moonRise{0%,15%{opacity:0;transform:translateY(120px) scale(.8)}55%{opacity:1;transform:none}}
+.phase-night .pf-wolf{position:absolute;left:50%;top:calc(22% + 58px);width:96px;height:142px;margin-left:-60px;fill:#04060b;filter:drop-shadow(1px -1px 0 rgba(185,211,226,.65));animation:wolfIn 3.3s ease both}
+@keyframes wolfIn{0%,30%{opacity:0;transform:translateY(20px)}55%{opacity:1;transform:none}}
+.phase-day .pf-sky{position:absolute;inset:0;background:linear-gradient(180deg,#1a2440 0%,#6d4b6e 45%,#f2a65e 80%,#ffd99a 100%);animation:dawnSky 3.3s ease both}
+@keyframes dawnSky{0%{filter:brightness(.25)}60%{filter:brightness(1)}100%{filter:brightness(1.1)}}
+.phase-day .pf-sun{position:absolute;left:50%;bottom:-90px;width:220px;height:220px;margin-left:-110px;border-radius:50%;background:radial-gradient(circle,#fff6d6 0%,#ffd07a 45%,#f59a4a 100%);box-shadow:0 0 90px 30px rgba(255,190,110,.55);animation:sunRise 3.3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes sunRise{0%{transform:translateY(160px)}70%{transform:translateY(-60px)}100%{transform:translateY(-70px)}}
+.phase-day .pf-rays{position:absolute;left:50%;bottom:-200px;width:900px;height:900px;margin-left:-450px;background:repeating-conic-gradient(rgba(255,230,170,.16) 0 6deg,transparent 6deg 18deg);border-radius:50%;-webkit-mask-image:radial-gradient(circle,#000 20%,transparent 65%);mask-image:radial-gradient(circle,#000 20%,transparent 65%);animation:raysSpin 3.3s linear both}
+@keyframes raysSpin{from{transform:rotate(0) scale(.6);opacity:0}40%{opacity:1}to{transform:rotate(25deg) scale(1)}}
+.phase-day .pf-text{color:#2b1606;text-shadow:0 1px 12px rgba(255,240,200,.6)}
+/* Halo lunaire en dégradé (plus net qu'une très grande ombre portée) */
+.mw-moon,.phase-night .pf-moon{box-shadow:none!important;animation-name:none}
+.phase-night .pf-moon{animation:moonRise 3.3s cubic-bezier(.2,.8,.2,1) both}
+.mw-moon::before,.pf-moon::before{content:"";position:absolute;inset:-70%;border-radius:50%;background:radial-gradient(circle,rgba(235,240,255,.38) 0%,rgba(170,195,230,.16) 38%,rgba(150,180,220,0) 70%);z-index:-1}
+.mw-moon::before{animation:haloBreath 4s ease-in-out infinite}
+@keyframes haloBreath{0%,100%{opacity:.7;transform:scale(.95)}50%{opacity:1;transform:scale(1.05)}}
