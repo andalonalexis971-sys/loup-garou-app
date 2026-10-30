@@ -33,7 +33,7 @@
    1. CONFIGURATION
    -------------------------------------------------------------------------- */
 const CONFIG = {
-  version: '3.0.0',
+  version: '4.0.0',
   cardBack: './assets/images/dos-de-carte.jpg',
   splashMin: 2200,
   minPlayers: 4,
@@ -550,7 +550,11 @@ function bigCard(id) {
     </div>
   </div>`;
 }
-const avatar = (name, cls = '') => `<span class="av ${cls}">${esc(name.trim().charAt(0).toUpperCase())}</span>`;
+/* Avatars colorés : une teinte stable par prénom (idée reprise d'Undercover) */
+const AV_COLORS = ['#b8433a', '#c9822b', '#a8902c', '#3f8a52', '#2e8a80', '#3a72a8', '#6a54b0', '#9a4a9a', '#b0475f', '#7a6a3a', '#41707a', '#5b6bb0'];
+function avColor(name) { let h = 0; for (const ch of name.toLowerCase()) h = (h * 31 + ch.codePointAt(0)) >>> 0; return AV_COLORS[h % AV_COLORS.length]; }
+const avatar = (name, cls = '') => `<span class="av ${cls}" style="--av:${avColor(name)}">${esc(([...name.trim()][0] || '?').toUpperCase())}</span>`;
+function shake(el) { if (!el) return; el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); haptic([20, 40, 20]); }
 function campBar(cards) {
   const s = { Loup: 0, Village: 0, Neutre: 0 };
   cards.forEach(id => s[R[id].camp]++);
@@ -588,7 +592,7 @@ const Sound = {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return;
     const c = this.ctx = new AC();
-    this.master = c.createGain(); this.master.gain.value = S.settings.volume; this.master.connect(c.destination);
+    this.master = c.createGain(); this.master.gain.value = S.settings.muted ? 0 : S.settings.volume; this.master.connect(c.destination);
     this.amb = c.createGain(); this.amb.gain.value = .9; this.amb.connect(this.master);
     this.sfx = c.createGain(); this.sfx.connect(this.master);
     // Réverbération (réponse impulsionnelle générée : bruit à décroissance exponentielle)
@@ -603,7 +607,7 @@ const Sound = {
     this.noise = nb;
     if (this.pending) { const p = this.pending; this.pending = null; this.setScene(p); }
   },
-  setVolume(v) { if (this.master) this.master.gain.setTargetAtTime(v, this.ctx.currentTime, .1); },
+  setVolume(v) { if (this.master) this.master.gain.setTargetAtTime(S.settings.muted ? 0 : v, this.ctx.currentTime, .1); },
   duck(on) { if (this.amb) this.amb.gain.setTargetAtTime(on ? .35 : .9, this.ctx.currentTime, .3); },
   get on() { return this.ctx && this.ctx.state === 'running'; },
   rnd: (a, b) => a + Math.random() * (b - a),
@@ -726,6 +730,12 @@ const Sound = {
     g.gain.setValueAtTime(.06, t0); g.gain.exponentialRampToValueAtTime(.0001, t0 + .07);
     o.connect(g).connect(this.sfx); o.start(t0); o.stop(t0 + .08);
   },
+  tick() {
+    if (!this.ok()) return;
+    const c = this.ctx, t0 = c.currentTime, o = c.createOscillator(), g = c.createGain();
+    o.frequency.value = 1320; g.gain.setValueAtTime(.08, t0); g.gain.exponentialRampToValueAtTime(.0001, t0 + .06);
+    o.connect(g).connect(this.sfx); o.start(t0); o.stop(t0 + .07);
+  },
   doom() {
     if (!this.ok()) return;
     const c = this.ctx, t0 = c.currentTime + .05, o = c.createOscillator(), g = c.createGain();
@@ -750,7 +760,7 @@ const SCENE_OF = { splash: 'menu', home: 'menu', play: 'menu', decks: 'menu', de
 /* --------------------------------------------------------------------------
    9. ÉTAT & NAVIGATION
    -------------------------------------------------------------------------- */
-const DEFAULT_SETTINGS = { voice: true, haptics: true, secretVote: true, ambience: true, sfx: true, volume: .7 };
+const DEFAULT_SETTINGS = { voice: true, haptics: true, secretVote: true, ambience: true, sfx: true, volume: .7, muted: false };
 const S = {
   screen: 'home',
   stack: [],
@@ -781,6 +791,7 @@ const TITLES = {
 };
 const PHASE = { night: 'night', mnight: 'night', day: 'day', vote: 'day', announce: 'day', result: 'day' };
 const IN_GAME = ['deal', 'night', 'mnight', 'announce', 'day', 'vote'];
+const LARGE = ['play', 'decks', 'deckEdit', 'settings', 'rules'];   // grands titres iOS repliables
 
 function render() {
   const view = $('#view');
@@ -788,10 +799,15 @@ function render() {
   const keep = same ? view.scrollTop : 0;
   const out = SCREENS[S.screen]();
   const o = typeof out === 'string' ? { body: out } : out;
-  view.innerHTML = `<div class="page page-${S.screen} ${same ? '' : 'enter'}">${o.body}</div>`;
+  const large = LARGE.includes(S.screen) ? `<h1 class="large-title">${esc(TITLES[S.screen])}</h1>` : '';
+  view.innerHTML = `<div class="page page-${S.screen} ${same ? '' : 'enter-' + (S.dir || 'fwd')}">${large}${o.body}</div>`;
   view.dataset.screen = S.screen;
   $('#dock').innerHTML = o.dock ? `<div class="dock-row">${o.dock}</div>` : '';
   view.scrollTop = keep;
+  document.body.classList.toggle('has-large', !!large);
+  document.body.classList.toggle('scrolled', keep > 36);
+  if (S.screen !== 'day') document.body.classList.remove('timer-danger');
+  updateMuteBtn();
   let title = TITLES[S.screen] || '';
   if (G && G.format === 'multi' && S.screen === 'mnight') title = `Nuit ${G.round}`;
   if (G && G.format === 'multi' && (S.screen === 'day' || S.screen === 'vote')) title = `Jour ${G.round}`;
@@ -805,6 +821,7 @@ function render() {
 function go(screen, opts = {}) {
   if (S.screen === 'day' && screen !== 'day') stopTimer();
   if (!opts.replace) S.stack.push(S.screen);
+  S.dir = opts.dir || 'fwd';
   S.screen = screen;
   closeSheet();
   render();
@@ -812,9 +829,9 @@ function go(screen, opts = {}) {
 function back() {
   if (IN_GAME.includes(S.screen)) confirmSheet('Quitter la partie ?', 'La partie en cours sera perdue.', 'Quitter', endGame);
   else if (S.screen === 'result') endGame();
-  else go(S.stack.pop() || 'home', { replace: true });
+  else go(S.stack.pop() || 'home', { replace: true, dir: 'back' });
 }
-function endGame() { stopTimer(); keepAwake(false); G = null; S.stack = []; go('home', { replace: true }); }
+function endGame() { stopTimer(); keepAwake(false); G = null; S.stack = []; go('home', { replace: true, dir: 'back' }); }
 
 /* --------------------------------------------------------------------------
    10. ÉCRANS
@@ -832,9 +849,12 @@ SCREENS.home = () => {
         <div class="ornament"><span></span><i></i><span></span></div>
       </header>
       <button class="panel ornate home-deck" data-act="goto" data-to="play">
-        <span class="kicker">Dernier deck joué</span>
+        <span class="kicker">Prochaine partie</span>
         <b>${esc(d.name)}</b>
         <span class="badges">${rulesBadges(d.rules)}</span>
+        <span class="home-players">${S.players.length
+          ? `<span class="ava-stack">${S.players.slice(0, 8).map(p => avatar(p)).join('')}</span><span>${S.players.length} joueur${S.players.length > 1 ? 's' : ''} prêt${S.players.length > 1 ? 's' : ''}</span>`
+          : '<span>Ajoutez les joueurs pour commencer</span>'}</span>
       </button>
       <div class="home-links">
         <button class="btn" data-act="goto" data-to="decks">${icon('cards')}Decks</button>
@@ -1001,6 +1021,12 @@ SCREENS.deal = () => {
   };
 };
 AFTER.deal = () => { if (G.deal.stage === 'card') updateDealUI(); };
+function updateMuteBtn() {
+  const b = $('#muteBtn'); if (!b) return;
+  b.innerHTML = icon(S.settings.muted ? 'mute' : 'speaker');
+  b.setAttribute('aria-label', S.settings.muted ? 'Activer le son' : 'Couper le son');
+  b.classList.toggle('is-muted', !!S.settings.muted);
+}
 function updateDealUI() {
   const d = G.deal, last = d.i === G.players.length - 1;
   $('#tcard').classList.toggle('is-flipped', d.flipped);
@@ -1100,7 +1126,9 @@ SCREENS.announce = () => {
       </section>`;
   }
   const deaths = A.deaths.length
-    ? `<div class="deaths">${A.deaths.map(i => `<div class="death">${miniCard(P[i].role, { dead: true })}<b>${esc(P[i].name)}</b><small>${CAUSE[P[i].cause] || ''}</small></div>`).join('')}</div>` : '';
+    ? `<div class="deaths">${A.deaths.map((i, k) => `<div class="death ${(A.seen || []).includes(i) ? 'instant' : ''}" style="--d:${.5 + k * .7}s">
+        <div class="dflip"><div class="dface">${miniBack()}</div><div class="dface dfront">${miniCard(P[i].role, { dead: true })}</div></div>
+        <b>${esc(P[i].name)}</b><small>${CAUSE[P[i].cause] || ''}</small></div>`).join('')}</div>` : '';
   const quiet = !A.deaths.length && !A.lines.length && !pend
     ? `<p class="center muted">${A.kind === 'dawn' ? 'Miracle : personne n\'est mort cette nuit.' : 'Personne n\'est éliminé.'}</p>` : '';
   return {
@@ -1114,11 +1142,22 @@ SCREENS.announce = () => {
   };
 };
 
+AFTER.announce = () => { const A = G.announce; A.seen = [...A.deaths]; };
+
 /* 10.9 Jour : chronomètre */
 SCREENS.day = () => {
   const t = G.timer, C = 2 * Math.PI * 90;
-  const alive = G.format === 'multi' ? `<section class="panel"><div class="panel-title">${icon('users')}Survivants · ${G.players.filter(p => p.alive).length}</div>
-      <div class="chips">${G.players.map(p => `<span class="chip ${p.alive ? '' : 'dead'}">${avatar(p.name, p.alive ? '' : 'dead')}${esc(p.name)}${p.pardoned ? ' · sans vote' : ''}</span>`).join('')}</div></section>` : '';
+  const T = G.talk, P = G.players;
+  const dead = P.filter(p => !p.alive).map(p => esc(p.name));
+  const alive = `<section class="panel">
+      <div class="panel-title">${icon('users')}Ordre de parole</div>
+      <ol class="talk">${T.order.map((i, k) => `<li class="talk-row ${k === T.k ? 'speaking' : ''} ${k < T.k ? 'spoken' : ''}">
+          <span class="idx">${k + 1}</span>${avatar(P[i].name)}<span class="nm">${esc(P[i].name)}${P[i].pardoned ? ' <small>· sans vote</small>' : ''}</span>
+          <span class="tbadge ${k === T.k ? 'speak' : k === 0 ? 'start' : ''}">${k === T.k ? 'Parle' : k === 0 ? 'Commence' : ''}</span></li>`).join('')}</ol>
+      ${dead.length ? `<p class="tiny faint" style="margin-top:10px">Morts : ${dead.join(', ')}</p>` : ''}
+      <div class="row" style="margin-top:12px"><button class="btn sm grow" data-act="talkNext">${icon('right')}${T.k >= T.order.length - 1 ? 'Débat libre' : 'Joueur suivant'}</button>
+        <button class="btn sm" data-act="showRoles">${icon('cards')}Rôles en jeu</button></div>
+    </section>`;
   return {
     body: `<div class="day-grid">
         <div class="panel timer ${t.left <= 0 ? 'over' : ''}">
@@ -1169,6 +1208,29 @@ SCREENS.vote = () => {
 
 /* 10.11 Dénouement */
 SCREENS.result = () => (G.format === 'nuit' ? resultNuit() : resultMulti());
+AFTER.result = () => {
+  if (G.celebrated) return; G.celebrated = true;
+  const camp = G.format === 'nuit' ? (G.result.winCamps[0] || 'neutre') : ({ loup: 'loup', tanneur: 'neutre' }[G.winner] || 'village');
+  embers(camp);
+};
+/* Braises de victoire (équivalent thématique des confettis d'Undercover) */
+function embers(camp) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cols = { village: ['#f5de8e', '#d4af37', '#fff3c9', '#8db6d6'], loup: ['#d7505f', '#ff8a5c', '#f5de8e', '#8e1f2c'], neutre: ['#b596e2', '#f5de8e', '#d9c8f5'] }[camp] || ['#f5de8e'];
+  const box = document.createElement('div'); box.className = 'embers';
+  for (let i = 0; i < 64; i++) {
+    const e = document.createElement('i');
+    e.style.left = Math.random() * 100 + 'vw';
+    e.style.background = cols[i % cols.length];
+    e.style.setProperty('--dx', (Math.random() * 160 - 80) + 'px');
+    e.style.setProperty('--s', (2 + Math.random() * 5) + 'px');
+    e.style.animationDuration = (3 + Math.random() * 3) + 's';
+    e.style.animationDelay = Math.random() * 1.2 + 's';
+    box.appendChild(e);
+  }
+  document.body.appendChild(box);
+  setTimeout(() => box.remove(), 7500);
+}
 
 function resultNuit() {
   const P = G.players, Rz = G.result;
@@ -1197,7 +1259,7 @@ function resultNuit() {
           <small>${p.role === p.start ? esc(R[p.role].nom) : `${esc(R[p.start].nom)} → <b style="display:inline;font-size:12.5px">${esc(R[p.role].nom)}</b>`}</small>
           <small class="faint">Vote : ${G.vote.ballots[i] != null ? esc(P[G.vote.ballots[i]].name) : '—'}</small></div>
           <div class="flags">${Rz.dead.includes(i) ? '<span class="flag dead">Éliminé</span>' : ''}${flag(i)}</div></div>`).join('')}</section>`,
-    dock: `<button class="btn" data-act="goHome">Accueil</button><button class="btn btn-gold" data-act="replay">${icon('reset')}Rejouer</button>`,
+    dock: `<button class="btn" data-act="replay">${icon('edit')}Modifier</button><button class="btn btn-gold" data-act="rematch">${icon('reset')}Revanche</button>`,
   };
 }
 
@@ -1219,7 +1281,7 @@ function resultMulti() {
           <div class="flags">${p.alive ? '' : '<span class="flag dead">Mort</span>'}${flag(p)}</div></div>`).join('')}</section>
       <section class="panel"><div class="panel-title">${icon('book')}Chronique</div>
         <ul class="chronicle">${G.chronicle.map(c => `<li>${c}</li>`).join('')}</ul></section>`,
-    dock: `<button class="btn" data-act="goHome">Accueil</button><button class="btn btn-gold" data-act="replay">${icon('reset')}Rejouer</button>`,
+    dock: `<button class="btn" data-act="replay">${icon('edit')}Modifier</button><button class="btn btn-gold" data-act="rematch">${icon('reset')}Revanche</button>`,
   };
 }
 
@@ -1236,6 +1298,7 @@ SCREENS.settings = () => {
       <div class="setting" style="display:block"><div class="row between"><span><b>Volume</b></span><b class="gold-num" id="volVal">${Math.round(st.volume * 100)} %</b></div>
         <input type="range" class="range" min="0" max="1" step="0.05" value="${st.volume}" data-set="volume" aria-label="Volume"></div>
       <button class="btn sm" style="margin-top:6px" data-act="testSound">${icon('speaker')}Tester le son</button>
+      <p class="tiny faint" style="margin-top:10px">Astuce : le haut-parleur en haut à droite coupe tout le son d'un geste. Sur iPhone, l'interrupteur silencieux coupe aussi l'ambiance.</p>
     </section>
     <section class="panel ornate">
       <div class="panel-title">${icon('gear')}Partie</div>
@@ -1539,8 +1602,14 @@ function startGame() {
   S.stack = [];
   go('deal', { replace: true });
 }
+function drawTalkOrder() {
+  const alive = G.players.map((p, i) => (p.alive ? i : -1)).filter(i => i >= 0);
+  const start = Math.floor(Math.random() * alive.length);
+  G.talk = { order: [...alive.slice(start), ...alive.slice(0, start)], k: 0 };   // sens de la table, départ tiré au sort
+}
 function startDay() {
-  G.timer = { total: G.rules.debate, left: G.rules.debate, running: false, end: 0 };
+  drawTalkOrder();
+  G.timer = { total: G.rules.debate, left: G.rules.debate, running: false, end: 0, lastSec: null };
   go('day', { replace: true });
 }
 function startVote() {
@@ -1571,6 +1640,8 @@ function stopTimer() { if (G && G.timer && G.timer.running) pauseTimer(); clearI
 function tick() {
   const t = G && G.timer; if (!t) { clearInterval(timerInt); return; }
   t.left = Math.max(0, (t.end - Date.now()) / 1000);
+  const sec = Math.ceil(t.left);
+  if (sec !== t.lastSec) { t.lastSec = sec; if (sec <= 5 && sec > 0) { Sound.tick(); haptic(8); } }
   if (t.left <= 0) { t.running = false; clearInterval(timerInt); Sound.chime(); haptic([250, 120, 250]); say('Le temps est écoulé. Passez au vote.'); }
   updateTimerUI();
 }
@@ -1583,11 +1654,12 @@ function updateTimerUI() {
   const box = $('.timer');
   box.classList.toggle('urgent', t.left <= 30 && t.left > 0);
   box.classList.toggle('over', t.left <= 0);
+  document.body.classList.toggle('timer-danger', t.running && t.left <= 10 && t.left > 0);
 }
 
 /* Voix française (l'ambiance baisse pendant la lecture) */
 function say(text) {
-  if (!S.settings.voice || !('speechSynthesis' in window)) return;
+  if (!S.settings.voice || S.settings.muted || !('speechSynthesis' in window)) return;
   try {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -1655,9 +1727,9 @@ const A = {
   /* Jouer */
   addPlayer() {
     const inp = $('#pName'); const v = (inp.value || '').trim().replace(/\s+/g, ' ');
-    if (!v) return inp.focus();
+    if (!v) { shake(inp); return inp.focus(); }
     if (S.players.length >= CONFIG.maxPlayers) return toast(`${CONFIG.maxPlayers} joueurs maximum`);
-    if (S.players.some(p => p.toLowerCase() === v.toLowerCase())) return toast('Ce prénom est déjà pris');
+    if (S.players.some(p => p.toLowerCase() === v.toLowerCase())) { shake(inp); return toast('Ce prénom est déjà pris'); }
     S.players.push(v); saveAll(); S.focusName = true; haptic(10); Sound.tap(); render();
   },
   rmPlayer(el) { S.players.splice(+el.dataset.i, 1); saveAll(); render(); },
@@ -1715,7 +1787,7 @@ const A = {
   saveDeck() {
     const d = S.draft, name = ($('#dName').value || '').trim();
     const total = Object.values(d.counts).reduce((a, b) => a + b, 0);
-    if (!name) { $('#dName').focus(); return toast('Donnez un nom au deck'); }
+    if (!name) { shake($('#dName')); $('#dName').focus(); return toast('Donnez un nom au deck'); }
     if (total < 3) return toast('Choisissez au moins 3 cartes');
     const deck = { id: d.id, name, counts: { ...d.counts }, rules: { ...d.rules } };
     const k = S.custom.findIndex(x => x.id === d.id);
@@ -1863,6 +1935,25 @@ const A = {
   },
   replay() { G = null; S.stack = ['home']; go('play', { replace: true }); },
 
+  /* Jour : ordre de parole, rôles en jeu */
+  talkNext() {
+    const T = G.talk;
+    if (T.k < T.order.length - 1) { T.k++; Sound.tap(); haptic(10); render(); }
+    else toast('Tout le monde a parlé — débat libre !');
+  },
+  showRoles() {
+    openSheet(`<div class="sheet-head"><h3>Rôles en jeu</h3><button class="btn icon btn-ghost" data-act="closeSheet" aria-label="Fermer">${icon('x')}</button></div>
+      <p class="sheet-sub">${G.cards.length} cartes${G.center.length ? `, dont ${G.center.length} au centre` : ''}. Touchez une carte pour lire son pouvoir.</p>
+      <div class="cards-grid">${stack(G.cards).map(x => `<button data-act="roleInfoGame" data-id="${x.id}">${miniCard(x.id, { count: x.n })}</button>`).join('')}</div>`);
+  },
+  roleInfoGame(el) { roleSheet(el.dataset.id, G.format); },
+  rematch() { G = null; startGame(); },
+  toggleMute() {
+    S.settings.muted = !S.settings.muted; saveAll(); Sound.init(); Sound.setVolume(S.settings.volume);
+    if (S.settings.muted && 'speechSynthesis' in window) speechSynthesis.cancel();
+    updateMuteBtn(); toast(S.settings.muted ? 'Son coupé' : 'Son activé');
+  },
+
   /* Réglages */
   testSound() { Sound.init(); Sound.howl(); setTimeout(() => Sound.bell(), 2600); },
   resetDecks() {
@@ -1927,14 +2018,19 @@ function enter() {
 function registerSW() {
   if (!('serviceWorker' in navigator) || !location.protocol.startsWith('http')) return;
   navigator.serviceWorker.register('./sw.js').then(() => navigator.serviceWorker.ready).then(reg => {
-    const urls = [CONFIG.cardBack, './assets/images/accueil.jpg', ...ROLES.map(r => r.image_url)];
+    const urls = [CONFIG.cardBack, './assets/images/accueil.jpg', './assets/images/accueil-paysage.jpg', ...ROLES.map(r => r.image_url)];
     reg.active && reg.active.postMessage({ type: 'WARM_IMAGES', urls });
   }).catch(() => { /* hors HTTPS ou refusé */ });
 }
 (function boot() {
   if (!getDeck(S.deckId)) S.deckId = DEFAULT_DECKS[0].id;
+  // Images déjà chargées avant ce script (fond d'accueil) : on rattrape l'événement manqué
+  document.querySelectorAll('img').forEach(im => {
+    if (im.complete) im.classList.add(im.naturalWidth ? 'is-loaded' : 'is-broken');
+  });
   buildScene();
   makeStars();
+  $('#view').addEventListener('scroll', e => document.body.classList.toggle('scrolled', e.target.scrollTop > 36), { passive: true });
   let rsT; window.addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(makeStars, 250); });
   if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = () => {};
   const sp = $('#splash');

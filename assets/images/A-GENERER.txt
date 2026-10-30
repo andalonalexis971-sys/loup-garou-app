@@ -1,4 +1,0 @@
-Illustrations encore manquantes (l'application affiche un décor de remplacement en attendant) :
-- accueil.jpg        fond de l'écran d'accueil (portrait, ~1290x2796)
-- dos-de-carte.jpg   dos commun des cartes (format 3:4, ex. 765x1024)
-Logo : remplacer les 4 PNG de ../icons/ (icon-192, icon-512, icon-maskable-512, apple-touch-icon 180x180).

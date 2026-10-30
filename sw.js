@@ -6,7 +6,7 @@
      • CSS / JS / polices     → cache immédiat + mise à jour en arrière-plan
    Pour publier une mise à jour : incrémentez VERSION.
    ========================================================================== */
-const VERSION = 'lg-v3.0.0';
+const VERSION = 'lg-v4.0.0';
 const SHELL_CACHE = `${VERSION}-shell`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 const IMAGE_CACHE = 'lg-images'; // conservé entre les versions
@@ -22,6 +22,7 @@ const OPTIONAL = [
   './assets/icons/apple-touch-icon.png',
   './assets/images/dos-de-carte.jpg',
   './assets/images/accueil.jpg',
+  './assets/images/accueil-paysage.jpg',
 ];
 
 self.addEventListener('install', event => {

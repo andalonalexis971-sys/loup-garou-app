@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style></head>
+<body><canvas id="c"></canvas>
+<script>
+/* Fond d'accueil Loup-Garou : nuit, lune gibbeuse, ravin + loup hurlant, village illuminé dans une vallée de sapins.
+   Paramètres : #largeur,hauteur  (portrait ou paysage) */
+window.DONE = false;
+const [W, H] = location.hash.slice(1).split(',').map(Number);
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+const x = cv.getContext('2d');
+const P = W < H;                       // portrait ?
+const U = Math.min(W, H) / 1000;       // unité
+let seed = 1337; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const lerp = (a, b, t) => a + (b - a) * t;
+
+/* Mise en page */
+const L = P ? {
+  horizon: .66, moonX: .68, moonY: .31, moonR: .16 * W,
+  cliffTopY: .70, cliffEdgeX: .42, wolfX: .27, villageX: .72, villageY: .80, villageW: .5
+} : {
+  horizon: .64, moonX: .74, moonY: .24, moonR: .085 * W,
+  cliffTopY: .66, cliffEdgeX: .30, wolfX: .235, villageX: .62, villageY: .80, villageW: .30
+};
+
+/* 1. Ciel */
+let g = x.createLinearGradient(0, 0, 0, H);
+g.addColorStop(0, '#03050b'); g.addColorStop(.35, '#08101f'); g.addColorStop(.62, '#13233a'); g.addColorStop(.75, '#1b2f45'); g.addColorStop(1, '#0a121c');
+x.fillStyle = g; x.fillRect(0, 0, W, H);
+const mx = L.moonX * W, my = L.moonY * H, mr = L.moonR;
+g = x.createRadialGradient(mx, my, mr * .5, mx, my, mr * 7);
+g.addColorStop(0, 'rgba(170,200,230,.30)'); g.addColorStop(.35, 'rgba(90,130,170,.12)'); g.addColorStop(1, 'rgba(40,60,90,0)');
+x.fillStyle = g; x.fillRect(0, 0, W, H);
+
+/* 2. Voie lactée diffuse + étoiles */
+x.save(); x.filter = `blur(${36 * U}px)`; x.globalAlpha = .075;
+for (let i = 0; i < 260; i++) {
+  const t = rnd(), px = lerp(-.1 * W, 1.1 * W, t), py = lerp(.02 * H, .45 * H, 1 - t) + (rnd() - .5) * .12 * H;
+  x.fillStyle = rnd() < .5 ? '#8fa6c8' : '#a9a3c4'; x.beginPath(); x.arc(px, py, (20 + rnd() * 60) * U, 0, 7); x.fill();
+}
+x.restore();
+for (let i = 0; i < (P ? 2200 : 2600); i++) {
+  const sx = rnd() * W, sy = Math.pow(rnd(), 1.35) * L.horizon * H;
+  const fade = 1 - sy / (L.horizon * H);
+  const dm = Math.hypot(sx - mx, sy - my) / mr;
+  if (dm < 1.15) continue;
+  const big = rnd() < .03;
+  const r = (big ? 1.6 + rnd() * 1.6 : .4 + rnd() * 1.1) * U * 1.6;
+  x.globalAlpha = Math.min(1, (.25 + rnd() * .75) * (.35 + fade * .65) * Math.min(1, dm / 3));
+  x.fillStyle = rnd() < .15 ? '#ffe9c4' : rnd() < .2 ? '#cfe0ff' : '#fbf6ec';
+  x.beginPath(); x.arc(sx, sy, r, 0, 7); x.fill();
+  if (big) {
+    x.globalAlpha *= .5; x.strokeStyle = x.fillStyle; x.lineWidth = .6 * U;
+    x.beginPath(); x.moveTo(sx - r * 5, sy); x.lineTo(sx + r * 5, sy); x.moveTo(sx, sy - r * 5); x.lineTo(sx, sy + r * 5); x.stroke();
+  }
+}
+x.globalAlpha = 1;
+
+/* 3. Lune gibbeuse */
+g = x.createRadialGradient(mx, my, mr, mx, my, mr * 2.4);
+g.addColorStop(0, 'rgba(235,240,255,.35)'); g.addColorStop(1, 'rgba(235,240,255,0)');
+x.fillStyle = g; x.beginPath(); x.arc(mx, my, mr * 2.4, 0, 7); x.fill();
+x.save(); x.beginPath(); x.arc(mx, my, mr, 0, 7); x.clip();
+g = x.createRadialGradient(mx - mr * .3, my - mr * .3, mr * .1, mx, my, mr * 1.05);
+g.addColorStop(0, '#fffdf2'); g.addColorStop(.65, '#ece6cf'); g.addColorStop(1, '#c8c2a6');
+x.fillStyle = g; x.fillRect(mx - mr, my - mr, mr * 2, mr * 2);
+x.filter = `blur(${mr * .035}px)`;
+seed = 2024;
+[[.05, -.35, .30, .16], [.32, .05, .22, .14], [-.1, .3, .18, .12], [.38, -.38, .1, .1]].forEach(([dx, dy, r, a]) => { x.fillStyle = `rgba(150,148,128,${a})`; x.beginPath(); x.ellipse(mx + dx * mr, my + dy * mr, r * mr, r * mr * .8, rnd(), 0, 7); x.fill(); });
+for (let i = 0; i < 40; i++) { const a = rnd() * 7, d = Math.sqrt(rnd()) * .9; x.fillStyle = `rgba(140,136,118,${.06 + rnd() * .08})`; x.beginPath(); x.arc(mx + Math.cos(a) * d * mr, my + Math.sin(a) * d * mr, (.015 + rnd() * .05) * mr, 0, 7); x.fill(); }
+x.filter = `blur(${mr * .3}px)`; x.fillStyle = 'rgba(10,16,30,.78)';
+x.beginPath(); x.arc(mx - mr * 1.75, my - mr * .05, mr * 1.1, 0, 7); x.fill();      // terminateur doux → gibbeuse
+x.restore();
+
+/* 4. Nuages fins éclairés */
+x.save(); x.filter = `blur(${14 * U}px)`;
+for (let i = 0; i < 26; i++) {
+  const cy = my + (rnd() - .2) * mr * 3.2, cx = mx + (rnd() - .5) * mr * 7, near = Math.max(0, 1 - Math.hypot(cx - mx, cy - my) / (mr * 5));
+  x.fillStyle = `rgba(${170 + near * 60},${185 + near * 50},${210 + near * 30},${.04 + near * .1})`;
+  x.beginPath(); x.ellipse(cx, cy, (120 + rnd() * 260) * U, (8 + rnd() * 18) * U, (rnd() - .5) * .15, 0, 7); x.fill();
+}
+x.restore();
+
+/* Crête procédurale (déplacement de point milieu) */
+function ridge(y0, amp, rough, s) {
+  seed = s; let pts = [[0, y0], [W, y0 + (rnd() - .5) * amp]];
+  let a = amp;
+  for (let k = 0; k < 9; k++) {
+    const np = [];
+    for (let i = 0; i < pts.length - 1; i++) { const [x1, y1] = pts[i], [x2, y2] = pts[i + 1]; np.push(pts[i], [(x1 + x2) / 2, (y1 + y2) / 2 + (rnd() - .5) * a]); }
+    np.push(pts[pts.length - 1]); pts = np; a *= rough;
+  }
+  return pts;
+}
+function fillRidge(pts, color) { x.fillStyle = color; x.beginPath(); x.moveTo(0, H); pts.forEach(([a, b]) => x.lineTo(a, b)); x.lineTo(W, H); x.fill(); }
+function fog(y, h, a, color = '160,185,215') {
+  const gg = x.createLinearGradient(0, y - h, 0, y + h);
+  gg.addColorStop(0, `rgba(${color},0)`); gg.addColorStop(.5, `rgba(${color},${a})`); gg.addColorStop(1, `rgba(${color},0)`);
+  x.fillStyle = gg; x.fillRect(0, y - h, W, h * 2);
+}
+function fir(cx, base, h, color) {
+  const w = h * (.30 + rnd() * .08); x.fillStyle = color; x.beginPath(); x.moveTo(cx, base - h);
+  const tiers = 6;
+  for (let t = 1; t <= tiers; t++) { const yy = base - h + h * t / tiers, ww = w * (t / tiers) * (1 + (rnd() - .5) * .25); x.lineTo(cx + ww, yy); x.lineTo(cx + ww * .4, yy - h * .025); }
+  x.lineTo(cx + w * .08, base); x.lineTo(cx - w * .08, base);
+  for (let t = tiers; t >= 1; t--) { const yy = base - h + h * t / tiers, ww = w * (t / tiers) * (1 + (rnd() - .5) * .25); x.lineTo(cx - ww * .4, yy - h * .025); x.lineTo(cx - ww, yy); }
+  x.closePath(); x.fill();
+}
+const hz = L.horizon * H;
+
+/* 5. Montagnes en profondeur + brume */
+fillRidge(ridge(hz - 150 * U, 260 * U, .55, 11), '#1a2b40');
+fog(hz - 40 * U, 120 * U, .16);
+fillRidge(ridge(hz - 50 * U, 180 * U, .55, 23), '#13213a');
+fog(hz + 30 * U, 90 * U, .14);
+const valley = ridge(hz + 70 * U, 90 * U, .5, 37);
+fillRidge(valley, '#0e192b');
+
+/* 6. Forêt lointaine sur la vallée */
+seed = 99;
+for (let i = 0; i < 520; i++) {
+  const fx = rnd() * W, idx = Math.floor(fx / W * (valley.length - 1)), by = valley[idx][1] + rnd() * 60 * U;
+  fir(fx, by + 10 * U, (22 + rnd() * 30) * U, `rgb(${10 + rnd() * 6},${19 + rnd() * 6},${32 + rnd() * 8})`);
+}
+fog(L.villageY * H - 20 * U, 70 * U, .12);
+
+/* 7. Village illuminé */
+const VS = P ? 1.55 : 1; const vx = L.villageX * W, vy = L.villageY * H, vw = L.villageW * W / VS;
+x.save(); x.translate(vx, vy); x.scale(VS, VS); x.translate(-vx, -vy);
+g = x.createRadialGradient(vx, vy - 20 * U, 10, vx, vy - 20 * U, vw * .75);
+g.addColorStop(0, 'rgba(255,170,80,.42)'); g.addColorStop(.4, 'rgba(255,140,60,.14)'); g.addColorStop(1, 'rgba(255,140,60,0)');
+x.fillStyle = g; x.fillRect(vx - vw, vy - vw, vw * 2, vw * 2);
+seed = 501;
+const windows = [];
+const houses = [];
+for (let i = 0; i < 16; i++) {
+  const hx = vx + (rnd() - .5) * vw, hw = (26 + rnd() * 28) * U, hh = (18 + rnd() * 22) * U, base = vy + (rnd() - .2) * 34 * U + Math.abs(hx - vx) / vw * 30 * U;
+  houses.push([hx, hw, hh, base]);
+}
+houses.sort((a, b) => a[3] - b[3]);
+const spire = [vx + vw * .06, vy - 6 * U];
+houses.forEach(([hx, hw, hh, base]) => {
+  x.fillStyle = '#070b14';
+  x.fillRect(hx - hw / 2, base - hh, hw, hh);
+  x.beginPath(); x.moveTo(hx - hw / 2 - 4 * U, base - hh); x.lineTo(hx, base - hh - hw * .5); x.lineTo(hx + hw / 2 + 4 * U, base - hh); x.fill();
+  if (rnd() < .6) x.fillRect(hx + hw * .18, base - hh - hw * .42, 5 * U, hw * .25);
+  const n = 1 + Math.floor(rnd() * 3);
+  for (let k = 0; k < n; k++) if (rnd() < .8) windows.push([hx - hw / 2 + hw * (k + .5) / n - 2.5 * U, base - hh * .62, 5 * U, 6.5 * U]);
+});
+// église + clocher
+x.fillStyle = '#060a12';
+x.fillRect(spire[0] - 16 * U, spire[1] - 40 * U, 32 * U, 46 * U);
+x.fillRect(spire[0] - 9 * U, spire[1] - 92 * U, 18 * U, 54 * U);
+x.beginPath(); x.moveTo(spire[0] - 12 * U, spire[1] - 92 * U); x.lineTo(spire[0], spire[1] - 150 * U); x.lineTo(spire[0] + 12 * U, spire[1] - 92 * U); x.fill();
+x.fillRect(spire[0] - .8 * U, spire[1] - 168 * U, 1.6 * U, 20 * U); x.fillRect(spire[0] - 5 * U, spire[1] - 162 * U, 10 * U, 1.6 * U);
+windows.push([spire[0] - 3 * U, spire[1] - 80 * U, 6 * U, 11 * U]);
+// fenêtres + halo
+x.save(); x.filter = `blur(${5 * U}px)`; x.fillStyle = 'rgba(255,175,80,.9)';
+windows.forEach(([a, b, c, d]) => x.fillRect(a - 2 * U, b - 2 * U, c + 4 * U, d + 4 * U)); x.restore();
+x.fillStyle = '#ffd38a'; windows.forEach(([a, b, c, d]) => x.fillRect(a, b, c, d));
+// fumées de cheminée
+x.save(); x.filter = `blur(${7 * U}px)`;
+houses.slice(-6).forEach(([hx, hw, hh, base]) => { for (let k = 0; k < 6; k++) { x.fillStyle = `rgba(150,165,190,${.05 - k * .006})`; x.beginPath(); x.ellipse(hx + hw * .2 + k * 6 * U, base - hh - hw * .45 - k * 16 * U, (8 + k * 4) * U, (6 + k * 2) * U, 0, 0, 7); x.fill(); } });
+x.restore();
+x.restore();
+
+/* 8. Sapins de premier plan autour du village */
+seed = 777;
+for (let i = 0; i < 70; i++) {
+  const fx = vx + (rnd() - .5) * vw * 2.2, d = Math.abs(fx - vx) / vw;
+  if (d < .45) continue;
+  fir(fx, vy + (40 + rnd() * 80) * U, (70 + rnd() * 90) * U * (.8 + d * .5), `rgb(${6 + rnd() * 4},${11 + rnd() * 4},${20 + rnd() * 6})`);
+}
+fog(vy + 60 * U, 60 * U, .1);
+
+/* 9. Ravin et falaise de premier plan (gauche) avec le loup */
+const ct = L.cliffTopY * H, ce = L.cliffEdgeX * W;
+x.fillStyle = '#04070c';
+x.beginPath(); x.moveTo(0, ct + 20 * U);
+for (let i = 0; i <= 20; i++) { const t = i / 20; x.lineTo(t * ce, ct + Math.sin(t * 7) * 6 * U + (1 - t) * 20 * U - t * 8 * U); }
+x.quadraticCurveTo(ce + 20 * U, ct - 6 * U, ce + 26 * U, ct + 22 * U);
+x.lineTo(ce + 20 * U, ct + 60 * U); x.lineTo(ce + 30 * U, ct + 95 * U); x.lineTo(ce + 50 * U, ct + 160 * U); x.lineTo(ce + 40 * U, ct + 240 * U);
+x.lineTo(ce + 80 * U, H); x.lineTo(0, H); x.closePath(); x.fill();
+// liseré lunaire sur l'arête
+x.strokeStyle = 'rgba(160,190,220,.35)'; x.lineWidth = 2 * U; x.beginPath(); x.moveTo(ce * .6, ct - 6 * U); x.quadraticCurveTo(ce + 20 * U, ct - 6 * U, ce + 26 * U, ct + 22 * U); x.stroke();
+// sapins sur la falaise
+seed = 4242;
+for (let i = 0; i < 9; i++) fir(rnd() * ce * .55, ct + 30 * U, (110 + rnd() * 140) * U, '#03050a');
+
+/* Loup assis qui hurle (repère 0..100) */
+const WOLF = new Path2D('M0 100 C6 96 10 92 14 86 C17 82 19 80 21 78 C21 72 22 66 25 60 C28 54 31 49 35 43 C37 38 38 34 39 30 L39 23 L43 13 L46 22 L49 20 C52 19 55 17 58 14 L67 5 L70 5 L70 8 L62 17 L60 20 L65 17 L66 19 L58 26 C56 29 55 31 54 34 C54 38 56 41 54 44 C56 46 53 49 55 52 C53 56 52 60 51 66 C50 74 51 86 53 96 L57 100 L46 100 C45 92 44 84 43 79 C41 81 39 82 37 83 C36 88 38 94 42 100 Z');
+const ws = (P ? 1.9 : 1.05) * U, wx = L.wolfX * W, wy = ct - 100 * ws - 4 * U;
+x.save(); x.translate(wx, wy); x.scale(ws, ws);
+x.fillStyle = 'rgba(175,205,230,.55)'; x.translate(1.4, -1); x.fill(WOLF); x.translate(-1.4, 1);
+x.fillStyle = '#04070c'; x.fill(WOLF);
+x.restore();
+
+/* 10. Grand sapins de premier plan (bords) */
+seed = 8080;
+for (let i = 0; i < 6; i++) fir(W - rnd() * W * .14, H + 20 * U, (380 + rnd() * 260) * U, '#020409');
+fir(W * (P ? .93 : .97), H + 40 * U, (P ? 760 : 620) * U, '#020308');
+
+/* 11. Brume basse + vignettage + grain */
+x.save(); x.filter = `blur(${40 * U}px)`;
+for (let i = 0; i < 18; i++) { x.fillStyle = `rgba(150,175,205,${.035 + rnd() * .04})`; x.beginPath(); x.ellipse(rnd() * W, lerp(.72, .95, rnd()) * H, (200 + rnd() * 400) * U, (30 + rnd() * 40) * U, 0, 0, 7); x.fill(); }
+x.restore();
+g = x.createRadialGradient(W / 2, H * .45, Math.min(W, H) * .3, W / 2, H * .5, Math.max(W, H) * .8);
+g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.55)');
+x.fillStyle = g; x.fillRect(0, 0, W, H);
+// voile sombre en haut pour la lisibilité du titre
+g = x.createLinearGradient(0, 0, 0, H * .3); g.addColorStop(0, 'rgba(2,3,8,.55)'); g.addColorStop(1, 'rgba(2,3,8,0)');
+x.fillStyle = g; x.fillRect(0, 0, W, H * .3);
+const img = x.getImageData(0, 0, W, H), d = img.data;
+for (let i = 0; i < d.length; i += 4) { const n = (Math.random() - .5) * 10; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+x.putImageData(img, 0, 0);
+window.DONE = true;
+</script></body></html>

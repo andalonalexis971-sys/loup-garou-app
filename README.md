@@ -17,4 +17,4 @@ assets/images/   25 illustrations de rôles ({id}.jpg)
 assets/icons/    icônes de l'application
 ```
 
-Illustrations encore attendues : `assets/images/accueil.jpg` (fond d'accueil) et `assets/images/dos-de-carte.jpg`. En leur absence, l'application affiche un décor vectoriel de remplacement.
+Le fond d'accueil (portrait + paysage) et le dos de carte sont générés par code : voir `tools/` (`node tools/render.js "tools/scene.html#1290,2796" 1290 2796 accueil.jpg`).

@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#0A0E17">
   <meta name="color-scheme" content="dark">
   <meta name="format-detection" content="telephone=no">
-  <meta name="description" content="Loup-Garou : le jeu de rôles caché, en mode Classique ou Pour une Nuit. Distribution secrète, maître du jeu, chronomètre et vote.">
+  <meta name="description" content="Loup-Garou : le jeu de rôles caché pour iPhone, iPad et Mac. Decks personnalisables, distribution secrète, maître du jeu, ambiance sonore, chronomètre et vote.">
 
   <title>Loup-Garou</title>
 
@@ -40,8 +40,9 @@
        DÉCOR GLOBAL (écran de chargement + fond de l'accueil)
        1. .scene-fallback : décor vectoriel généré par app.js
           (ciel étoilé, lune gibbeuse, ravin, loup, village, sapins)
-       2. .bg-art : illustration IA ./assets/images/accueil.jpg
-          qui recouvre le décor vectoriel dès qu'elle existe.
+       2. .bg-art : illustration ./assets/images/accueil.jpg (portrait)
+          ou accueil-paysage.jpg (iPad horizontal, Mac), qui recouvre
+          le décor vectoriel dès qu'elle est chargée.
        ========================================================== -->
   <div id="backdrop" aria-hidden="true">
     <div class="scene-fallback">
@@ -49,7 +50,10 @@
       <div id="stars-2"></div>
       <div id="scene-svg"></div>
     </div>
-    <img class="bg-art" src="./assets/images/accueil.jpg" alt="">
+    <picture>
+      <source media="(min-aspect-ratio: 1/1)" srcset="./assets/images/accueil-paysage.jpg">
+      <img class="bg-art" src="./assets/images/accueil.jpg" alt="" fetchpriority="high">
+    </picture>
     <div class="mist"></div>
     <div class="vignette"></div>
     <div class="dim"></div>
@@ -78,7 +82,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
       <h1 id="title"></h1>
-      <span id="topRight"></span>
+      <button class="btn icon btn-ghost" id="muteBtn" data-act="toggleMute" aria-label="Couper le son"></button>
     </header>
     <main id="view"></main>
     <footer id="dock"></footer>
