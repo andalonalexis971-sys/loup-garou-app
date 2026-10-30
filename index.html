@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- ==========================================================
+       VIEWPORT iOS : plein écran sous l'encoche (viewport-fit=cover)
+       et zoom désactivé (maximum-scale + user-scalable=no).
+       ========================================================== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+  <!-- PWA / installation "écran d'accueil" -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Loup-Garou">
+  <meta name="application-name" content="Loup-Garou">
+  <meta name="theme-color" content="#0A0E17">
+  <meta name="color-scheme" content="dark">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="description" content="Loup-Garou : le jeu de rôles caché, en mode Classique ou Pour une Nuit. Distribution secrète, maître du jeu, chronomètre et vote.">
+
+  <title>Loup-Garou</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png">
+
+  <!-- Typographies : Cinzel (titres occultes) + Inter (lecture) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Inter:wght@400;500;600;700&display=swap">
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body data-screen="splash">
+
+  <!-- ==========================================================
+       DÉCOR GLOBAL (écran de chargement + fond de l'accueil)
+       1. .scene-fallback : décor vectoriel généré par app.js
+          (ciel étoilé, lune gibbeuse, ravin, loup, village, sapins)
+       2. .bg-art : illustration IA ./assets/images/accueil.jpg
+          qui recouvre le décor vectoriel dès qu'elle existe.
+       ========================================================== -->
+  <div id="backdrop" aria-hidden="true">
+    <div class="scene-fallback">
+      <div id="stars"></div>
+      <div id="stars-2"></div>
+      <div id="scene-svg"></div>
+    </div>
+    <img class="bg-art" src="./assets/images/accueil.jpg" alt="">
+    <div class="mist"></div>
+    <div class="vignette"></div>
+    <div class="dim"></div>
+  </div>
+
+  <!-- ==========================================================
+       ÉCRAN DE CHARGEMENT
+       ========================================================== -->
+  <div id="splash" role="button" aria-label="Entrer dans le village" tabindex="0">
+    <div class="splash-inner">
+      <p class="eyebrow">Le village s'endort…</p>
+      <h1 class="logo-title">Loup-Garou</h1>
+      <div class="ornament"><span></span><i></i><span></span></div>
+      <p class="splash-tap">Touchez pour entrer</p>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       APPLICATION
+       #view : zone scrollable unique (le body est figé → aucun rebond iOS)
+       #dock : barre d'actions collée en bas, au-dessus du home indicator
+       ========================================================== -->
+  <div id="app">
+    <header class="topbar">
+      <button class="btn icon btn-ghost" id="backBtn" data-act="back" aria-label="Retour">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <h1 id="title"></h1>
+      <span id="topRight"></span>
+    </header>
+    <main id="view"></main>
+    <footer id="dock"></footer>
+  </div>
+
+  <!-- Feuille modale (bas d'écran sur mobile, centrée sur tablette) -->
+  <div id="sheet" data-act="sheetBg" aria-hidden="true">
+    <div class="sheet-card" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <noscript><p style="padding:40px;text-align:center">Activez JavaScript pour jouer.</p></noscript>
+  <script src="./app.js" defer></script>
+</body>
+</html>
