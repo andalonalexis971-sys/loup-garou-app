@@ -33,7 +33,7 @@
    1. CONFIGURATION
    -------------------------------------------------------------------------- */
 const CONFIG = {
-  version: '5.0.0',
+  version: '5.0.1',
   cardBack: './assets/images/dos-de-carte.jpg',
   splashMin: 2200,
   minPlayers: 4,
@@ -2167,6 +2167,12 @@ let swReg = null, reloading = false;
 function applyUpdate() {
   if (reloading) return;
   if (G && IN_GAME.includes(S.screen)) { S.updateReady = true; toast('Mise à jour prête : elle s\'appliquera à la fin de la partie'); return; }
+  // Garde-fou anti-boucle : jamais plus d'un rechargement automatique par minute
+  try {
+    const last = +sessionStorage.getItem('lg.autoReload') || 0;
+    if (Date.now() - last < 60000) return;
+    sessionStorage.setItem('lg.autoReload', String(Date.now()));
+  } catch (e) { /* stockage indisponible : on recharge quand même une fois */ }
   reloading = true; location.reload();
 }
 function registerSW() {
